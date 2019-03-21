@@ -1,1 +1,30 @@
 /* Page Styles Here */
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'side header header header'
+    'side main main main'
+    'side footer footer footer';
+}
+
+.side {
+    grid-area: side;
+}
+
+.header {
+    grid-area: header;
+}
+
+.main {
+    grid-area: main;
+}
+
+.footer {
+    grid-area: footer;
+}
+
+img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}

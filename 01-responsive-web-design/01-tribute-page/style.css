@@ -7,6 +7,12 @@
     'side footer footer footer';
 }
 
+.inner-grid {
+  display: grid;
+  grid-template-columns: 33fr 33fr 33fr;
+  grid-template-rows: 33fr 33fr 33fr;
+}
+
 .side {
     grid-area: side;
 }

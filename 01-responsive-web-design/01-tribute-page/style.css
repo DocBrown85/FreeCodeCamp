@@ -7,19 +7,6 @@
     'side footer footer footer';
 }
 
-.inner-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
-  align-items: start;
-}
-
-.inner-grid img {
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
-  width: 50%;
-}
-
 .side {
     grid-area: side;
 }
@@ -40,4 +27,17 @@ img {
   display: block;
   margin: auto;
   max-width: 100%;
+}
+
+.inner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  align-items: start;
+}
+
+.inner-grid img {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  width: 50%;
 }

@@ -11,7 +11,7 @@
 <body>
     <header>
         <h1 id="title">Survey Form</h1>
-        <p>This is a survery form</p>
+        <p id="description">This is a survery form</p>
     </header>
     <!-- Page Content Here -->
     <main>
@@ -34,6 +34,18 @@
                 <option value="opt-4">Option 4</option>
             </select>
             <br>
+            <label for="radio-option">Select:</label>
+            <br>
+            <input type="radio" name="radio-option" value="option-1"> Option 1<br>
+            <input type="radio" name="radio-option" value="option-2"> Option 2<br>
+            <input type="radio" name="radio-option" value="option-3"> Option 3<br>
+            Select:<br>
+            <input type="checkbox" id="checkbox-option-1" name="checkbox-option-1" value="option-1">
+            <label for="checkbox-option-1">Option 1</label><br>
+            <input type="checkbox" id="checkbox-option-2" name="checkbox-option-2" value="option-2">
+            <label for="checkbox-option-2">Option 2</label><br>
+            <input type="checkbox" id="checkbox-option-3" name="checkbox-option-3" value="option-3">
+            <label for="checkbox-option-3">Option 3</label><br>
             <textarea id="textarea" placeholder="additional comments"></textarea>
             <br>
             <input type="submit" id="submit">

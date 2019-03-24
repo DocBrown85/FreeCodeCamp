@@ -54,3 +54,7 @@ img {
 .inner-grid img:hover {
   opacity: 1;
 }
+
+#tribute-link img {
+  max-width: 50%;
+}

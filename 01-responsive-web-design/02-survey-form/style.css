@@ -1,1 +1,8 @@
 /* Page Styles Here */
+header {
+  text-align: center;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

@@ -15,3 +15,18 @@ header {
   border-width: 4px;
   padding: 15px 15px 15px 15px;
 }
+
+.contact {
+  display: flex;
+  flex-direction: column;
+}
+
+.survey {
+  display: flex;
+  flex-direction: column;
+}
+
+#survey-form {
+  display: flex;
+  flex-direction: column;
+}

@@ -21,37 +21,37 @@
             <main>
                 <form id="survey-form">
 
-                    <label id="name-label" for="name">Name:</label>
-                    <input type="text" id="name" required placeholder="enter your name">
-                    <br>
-                    <label id="email-label" for="email">Email:</label>
-                    <input type="email" id="email" required placeholder="enter your email">
-                    <br>
-                    <label id="number-label" for="number">Number:</label>
-                    <input type="number" id="number" min="0" max="255" required placeholder="enter a number from 0 to 255">
-                    <br>
-                    <label id="dropdown-label" for="dropdown">Select:</label>
-                    <select id="dropdown">
-                        <option value="opt-1">Option 1</option>
-                        <option value="opt-2">Option 2</option>
-                        <option value="opt-3">Option 3</option>
-                        <option value="opt-4">Option 4</option>
-                    </select>
-                    <br>
-                    <label for="radio-option">Select:</label>
-                    <br>
-                    <input type="radio" name="radio-option" value="option-1"> Option 1<br>
-                    <input type="radio" name="radio-option" value="option-2"> Option 2<br>
-                    <input type="radio" name="radio-option" value="option-3"> Option 3<br>
-                    Select:<br>
-                    <input type="checkbox" id="checkbox-option-1" name="checkbox-option-1" value="option-1">
-                    <label for="checkbox-option-1">Option 1</label><br>
-                    <input type="checkbox" id="checkbox-option-2" name="checkbox-option-2" value="option-2">
-                    <label for="checkbox-option-2">Option 2</label><br>
-                    <input type="checkbox" id="checkbox-option-3" name="checkbox-option-3" value="option-3">
-                    <label for="checkbox-option-3">Option 3</label><br>
-                    <textarea id="textarea" rows="10" cols="50" placeholder="additional comments"></textarea>
-                    <br>
+                    <div class="contact">
+                        <label id="name-label" for="name">Name:</label>
+                        <input type="text" id="name" required placeholder="enter your name">
+                        <label id="email-label" for="email">Email:</label>
+                        <input type="email" id="email" required placeholder="enter your email">
+                    </div>
+
+                    <div class="survey">
+                        <label id="number-label" for="number">Number:</label>
+                        <input type="number" id="number" min="0" max="255" required placeholder="enter a number from 0 to 255">
+                        <label id="dropdown-label" for="dropdown">Select:</label>
+                        <select id="dropdown">
+                            <option value="opt-1">Option 1</option>
+                            <option value="opt-2">Option 2</option>
+                            <option value="opt-3">Option 3</option>
+                            <option value="opt-4">Option 4</option>
+                        </select>
+                        <label for="radio-option">Select:</label>
+                        <input type="radio" name="radio-option" value="option-1"> Option 1
+                        <input type="radio" name="radio-option" value="option-2"> Option 2
+                        <input type="radio" name="radio-option" value="option-3"> Option 3
+                        Select:
+                        <input type="checkbox" id="checkbox-option-1" name="checkbox-option-1" value="option-1">
+                        <label for="checkbox-option-1">Option 1</label>
+                        <input type="checkbox" id="checkbox-option-2" name="checkbox-option-2" value="option-2">
+                        <label for="checkbox-option-2">Option 2</label>
+                        <input type="checkbox" id="checkbox-option-3" name="checkbox-option-3" value="option-3">
+                        <label for="checkbox-option-3">Option 3</label>
+                        <textarea id="textarea" rows="10" cols="50" placeholder="additional comments"></textarea>
+                    </div>
+
                     <input type="submit" id="submit">
 
                 </form>

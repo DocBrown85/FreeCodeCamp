@@ -25,6 +25,21 @@ textarea {
   flex-direction: column;
 }
 
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: .5em;
+}
+
+.form-row > label {
+  padding: .5em 1em .5em 0;
+  flex: 1;
+}
+
+.form-row > input {
+  flex: 2;
+}
+
 .survey {
   display: flex;
   flex-direction: column;

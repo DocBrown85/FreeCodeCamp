@@ -40,6 +40,10 @@ textarea {
   flex: 2;
 }
 
+.form-row > select {
+  flex: 2;
+}
+
 .survey {
   display: flex;
   flex-direction: column;

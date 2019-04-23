@@ -37,11 +37,13 @@ section {
     color: #fff;
     font-size: 30px;
 }
+header {
+  display: flex;
+}
 nav {
     position: fixed;
 }
 nav a {
-    display: block;
     font-size: 12px;
     color: #FFF;
     text-align: center;

@@ -50,13 +50,13 @@ textarea {
 }
 
 #radio-options {
-  flex-grow: 1;
+  flex: 2;
   display: flex;
   justify-content: space-between;
 }
 
 #checkbox-options {
-  flex-grow: 1;
+  flex: 2;
   display: flex;
   justify-content: space-between;
 }

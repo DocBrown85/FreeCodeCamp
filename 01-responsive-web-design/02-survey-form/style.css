@@ -49,6 +49,18 @@ textarea {
   flex-direction: column;
 }
 
+#radio-options {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+#checkbox-options {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
 #survey-form {
   display: flex;
   flex-direction: column;

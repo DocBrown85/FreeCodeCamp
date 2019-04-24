@@ -6,11 +6,9 @@ html, body {
   padding:0;
 }
 
-main {
-  margin: 0;
-  height:100%;
-  width:100%;
-  padding:0;
+header {
+  display: flex;
+  justify-content: space-between;
 }
 
 section {
@@ -38,9 +36,4 @@ section {
 #contact {
   background: #74BE98;
   font-size: 30px;
-}
-
-header {
-  display:flex;
-  justify-content: space-between;
 }

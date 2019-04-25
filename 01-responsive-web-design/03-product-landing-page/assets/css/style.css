@@ -21,6 +21,12 @@ header {
 
 nav {
   font-weight: 400;
+  font-size: 30px;
+  margin-top: 46px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 650px) {
   nav {

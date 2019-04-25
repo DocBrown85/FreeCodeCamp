@@ -11,26 +11,37 @@
 </head>
 
 <body>
-  <header id="header">
-    <img id="header-img" src="assets/images/stark-industries-logo.png" alt="Stark Industries Logo">
-    <nav id="nav-bar">
-      <a href="#home" class="nav-link">Home</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#contact" class="nav-link">Contact</a>
-    </nav>
-  </header>
-  <main id="main">
-    <section id="home">
-      <div id="home-container">
-        <img id="suit-image" src="assets/images/iron-man-suit-2.jpg" alt="Iron Man Suit">
-      </div>
-    </section>
-    <section id="about">About</section>
-    <section id="contact">Contact</section>
-  </main>
-  <footer id="footer">
-    <span>&copy; 2019, Stark Industries</span>
-  </footer>
+  <div id="page-wrapper">
+    <header id="header">
+        <img id="header-img" src="assets/images/stark-industries-logo.png" alt="Stark Industries Logo">
+        <nav id="nav-bar">
+          <ul>
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main id="main">
+        <section id="home">
+          <div id="home-container">
+            <img id="suit-image" src="assets/images/iron-man-suit-2.jpg" alt="Iron Man Suit">
+          </div>
+        </section>
+        <section id="about">
+            <iframe id="video" height="315" src="https://www.youtube-nocookie.com/embed/HkjMtpD6EkE?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </section>
+        <section id="contact">
+          <form id="form" action="https://www.freecodecamp.com/email-submit">
+            <input name="email" id="email" type="email" placeholder="Enter your email address" required/>
+            <input id="submit" type="submit" value="Order Now"></input>
+          </form>
+        </section>
+      </main>
+      <footer id="footer">
+        <span>&copy; 2019, Stark Industries</span>
+      </footer>
+  </div>
   <!-- Include Test Bundle -->
   <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>

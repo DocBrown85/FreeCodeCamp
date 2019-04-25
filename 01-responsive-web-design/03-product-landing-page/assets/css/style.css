@@ -88,6 +88,8 @@ section {
   background: #fff;
   color: #000000;
   font-size: 30px;
+  display: flex;
+  justify-content: center;
 }
 
 #contact {

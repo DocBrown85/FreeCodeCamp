@@ -22,18 +22,30 @@ section {
 }
 
 #home {
-  background: #111816;
-  color: #fff;
+  background: #fff;
+  color: #000000;
   font-size: 30px;
 }
 
+#home-container {
+  display: flex;
+  justify-content: center;
+}
+
+#suit-image {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+}
+
 #about {
-  background: #123037;
-  color: #fff;
+  background: #fff;
+  color: #000000;
   font-size: 30px;
 }
 
 #contact {
-  background: #74BE98;
+  background: #fff;
+  color: #000000;
   font-size: 30px;
 }

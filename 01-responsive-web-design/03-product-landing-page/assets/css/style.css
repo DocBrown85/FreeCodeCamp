@@ -16,7 +16,6 @@ header {
   top: 0;
   left:0;
   height: 130px;
-  z-index: 10;
   display: flex;
   justify-content: space-between;
 }
@@ -109,4 +108,21 @@ footer {
   font-size: 30px;
   display: flex;
   justify-content: center;
+}
+
+#contact ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#contact ul li {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 3px;
+}
+
+#submit {
+  flex-grow: 1;
 }

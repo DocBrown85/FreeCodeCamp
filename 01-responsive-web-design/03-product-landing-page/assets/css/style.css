@@ -10,11 +10,13 @@
 }
 
 header {
+  background: #FFF;
   position: fixed;
   width: 100%;
   top: 0;
   left:0;
   height: 130px;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
 }
@@ -64,10 +66,10 @@ a {
 
 section {
   display: block;
-  background: #CFF;
+  background: #FFF;
   height:100%;
   width:100%;
-  padding: 130px;
+  padding-top: 130px;
   box-sizing: border-box;
 }
 

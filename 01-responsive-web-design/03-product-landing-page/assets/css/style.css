@@ -123,6 +123,6 @@ footer {
   padding: 3px;
 }
 
-#submit {
+#contact ul li #submit {
   flex-grow: 1;
 }

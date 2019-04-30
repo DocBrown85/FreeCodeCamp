@@ -85,7 +85,18 @@ footer {
 
 #home-container {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card {
+  text-align: center;
 }
 
 #suit-image {

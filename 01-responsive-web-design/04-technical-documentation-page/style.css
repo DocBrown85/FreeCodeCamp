@@ -1,1 +1,14 @@
 /* Add Styles Here */
+#page-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+#navbar {
+  order: 0;
+}
+
+#main-doc {
+  order: 1;
+}

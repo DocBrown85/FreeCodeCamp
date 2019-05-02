@@ -2,6 +2,8 @@
 html,body {
   min-width: 290px;
   background-color: #ffffff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  line-height: 1.5;
 }
 
 #page-wrapper {

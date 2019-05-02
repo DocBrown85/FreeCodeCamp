@@ -1,14 +1,25 @@
 /* Add Styles Here */
+html,body {
+  min-width: 290px;
+  background-color: #ffffff;
+}
+
 #page-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
+
 }
 
 #navbar {
-  order: 0;
+  position: fixed;
+  min-width: 290px;
+  top: 0px;
+  left: 0px;
+  width: 300px;
+  height: 100%;
 }
 
 #main-doc {
-  order: 1;
+  position: absolute;
+  margin-left: 310px;
+  padding: 20px;
+  margin-bottom: 110px;
 }

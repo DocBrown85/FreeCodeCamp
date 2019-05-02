@@ -19,6 +19,12 @@ html,body {
   height: 100%;
 }
 
+#navbar ul {
+  height: 88%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 #main-doc {
   position: absolute;
   margin-left: 310px;

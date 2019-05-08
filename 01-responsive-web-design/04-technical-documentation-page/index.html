@@ -55,7 +55,10 @@
           sunt, possumus duis laboris de pariatur ad ipsum probant.Eram quibusdam nam
           incididunt. Iis sed tempor sint irure. Multos quibusdam aut laboris.
         </p>
-        <code></code>
+        <code>
+          import math
+          math.exp(-(b*dE))
+        </code>
         <ul>
           <li>
             culpa ipsum aliqua tamen velit irure quae velit enim noster eram nulla magna
@@ -109,7 +112,14 @@
           si illum an nescius eu dolor id o fabulas ut ingeniis ubi an in tamen ipsum sint
           ubi do ut nisi malis labore.
         </p>
-        <code></code>
+        <code>
+          {
+            "id_tabla":3,
+            "fecha":"02-09-2015",
+            "privacidad":0,
+            "timediff_m": "00"
+          }
+        </code>
         <ul>
           <li>
             ipsum aute dolor amet fore anim magna dolore malis quae noster cillum labore
@@ -167,7 +177,13 @@
           quamquam firmissimum e proident, doctrina hic quem appellat, id an ipsum
           ullamco.
         </p>
-        <code></code>
+        <code>
+          def g(x):
+            y0 = x + 1
+            y1 = x * 3
+            y2 = y0 ** y3
+            return {'y0': y0, 'y1': y1 ,'y2': y2}
+        </code>
         <ul>
           <li>
             nulla nisi legam quorum aute tempor multos culpa fore sunt tempor nulla aliqua
@@ -220,7 +236,9 @@
           ipsum quae dolore, id si relinqueret ad irure nescius a multos cillum ea quorum
           constias se distinguantur, eu hic legam offendit, commodo aliqua eiusmod.
         </p>
-        <code></code>
+        <code>
+          z = {**x, **y}
+        </code>
         <ul>
           <li>
             illum quis amet fore quis sint aliqua aute tamen irure elit noster malis eram
@@ -268,7 +286,15 @@
           hic cernantur e multos. E tamen quorum aut fabulas in noster a occaecat non
           culpa, dolor o do dolor consequat, mentitum fugiat ad nostrud sempiternum.
         </p>
-        <code></code>
+        <code>
+          def firstn(n):
+            num = 0
+            while num < n:
+               yield num
+               num += 1
+
+          sum_of_first_n = sum(firstn(1000000))
+        </code>
         <ul>
           <li>
             quae minim sint ipsum fore enim quid quae sint eram enim quem elit ipsum amet
@@ -322,7 +348,40 @@
           e enim quid quem probant ne veniam quibusdam officia, o cernantur eu senserit,
           ubi a domesticarum, eram quo do nulla mentitum et fugiat iis nescius.
         </p>
-        <code></code>
+        <code>
+          # defining a decorator
+          def hello_decorator(func):
+
+              # inner1 is a Wrapper function in
+              # which the argument is called
+
+              # inner function can access the outer local
+              # functions like in this case "func"
+              def inner1():
+                  print("Hello, this is before function execution")
+
+                  # calling the actual function now
+                  # inside the wrapper function.
+                  func()
+
+                  print("This is after function execution")
+
+              return inner1
+
+
+          # defining a function, to be called inside wrapper
+          def function_to_be_used():
+              print("This is inside the function !!")
+
+
+          # passing 'function_to_be_used' inside the
+          # decorator to control its behavior
+          function_to_be_used = hello_decorator(function_to_be_used)
+
+
+          # calling the function
+          function_to_be_used()
+        </code>
         <ul>
           <li>
             aute summis culpa quis culpa dolore minim velit legam dolore minim aliqua veniam
@@ -363,7 +422,19 @@
           cupidatat nam ingeniis, ne te sempiternum ea quae o an quorum appellat hic
           occaecat aliqua cillum quo aliqua. Ubi et sunt pariatur.
         </p>
-        <code></code>
+        <code>
+          def quicksort(arr):
+            if len(arr) <= 1:
+              return arr
+            pivot = arr[len(arr) // 2]
+            left = [x for x in arr if x < pivot]
+            middle = [x for x in arr if x == pivot]
+            right = [x for x in arr if x > pivot]
+            return quicksort(left) + middle + quicksort(right)
+
+          print(quicksort([3,6,8,10,1,2,1]))
+          # Prints "[1, 1, 2, 3, 6, 8, 10]"
+        </code>
         <ul>
           <li>
             elit amet fore velit enim tamen tempor quid aliqua fugiat sunt minim multos
@@ -396,7 +467,13 @@
           nisi si fugiat, velit est cernantur an elit quo ex anim fugiat ita expetendis, o
           tamen cupidatat aliquip o ex est legam ipsum fore.
         </p>
-        <code></code>
+        <code>
+          d = {'person': 2, 'cat': 4, 'spider': 8}
+          for animal in d:
+            legs = d[animal]
+            print('A %s has %d legs' % (animal, legs))
+          # Prints "A person has 2 legs", "A cat has 4 legs", "A spider has 8 legs"
+        </code>
         <ul>
           <li>
             summis tempor enim tempor legam fugiat fore dolor quorum quorum
@@ -432,7 +509,19 @@
           iudicem voluptatibus. Quis quamquam appellat. Amet ne eu aute incididunt,
           ingeniis nam cupidatat.
         </p>
-        <code></code>
+        <code>
+          def sign(x):
+            if x > 0:
+              return 'positive'
+            elif x < 0:
+              return 'negative'
+            else:
+              return 'zero'
+
+          for x in [-1, 0, 1]:
+            print(sign(x))
+          # Prints "negative", "zero", "positive"
+        </code>
         <ul>
           <li>
             dolor multos quae veniam summis tamen cillum sunt sint labore noster veniam
@@ -472,7 +561,13 @@
           iudicem se culpa mentitum ubi constias quo a multos quis e laborum. Eu eram
           eiusmod despicationes ab non nulla do multos.
         </p>
-        <code></code>
+        <code>
+          f = lambda x: -special.jv(args.order, x)
+          sol = optimize.minimize(f, 1.0)
+
+          x = np.linspace(0, 10, 5000)
+          plt.plot(x, special.jv(args.order, x), '-', sol.x, -sol.fun, 'o')
+        </code>
         <ul>
           <li>
             anim sunt ipsum quis labore nulla quorum magna veniam anim fore

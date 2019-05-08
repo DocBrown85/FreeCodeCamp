@@ -36,3 +36,7 @@ code {
   padding: 20px;
   margin-bottom: 110px;
 }
+
+@media (max-width: 650px) {
+  /* CSS */
+}

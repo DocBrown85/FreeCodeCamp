@@ -33,6 +33,7 @@ code {
 #navbar ul li {
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 
 #navbar ul a {

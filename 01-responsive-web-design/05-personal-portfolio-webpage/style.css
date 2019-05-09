@@ -33,3 +33,9 @@ section {
   padding-top: 130px;
   box-sizing: border-box;
 }
+
+.contact-icon {
+  display: block;
+  text-decoration: none;
+  color: #000000;
+}

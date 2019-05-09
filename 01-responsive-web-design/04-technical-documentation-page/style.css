@@ -7,8 +7,14 @@ html, body {
 }
 
 code {
-  display: block;
+  display:block;
+  text-align: left;
   white-space: pre-wrap;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 2;
+  background-color:#f7f7f7;
+  border-radius:5px;
 }
 
 #page-wrapper {

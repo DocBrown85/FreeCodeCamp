@@ -49,5 +49,22 @@ code {
 }
 
 @media (max-width: 650px) {
-  /* CSS */
+
+  #page-wrapper {
+    margin: 20px;
+  }
+
+  #navbar {
+    position: static;
+    width: 100%;
+  }
+
+  #main-doc {
+    position: static;
+    width: 100%;
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-bottom: 110px;
+  }
+
 }

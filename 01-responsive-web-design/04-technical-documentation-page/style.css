@@ -30,6 +30,16 @@ code {
   overflow-x: hidden;
 }
 
+#navbar ul li {
+  padding: 0;
+  margin: 0;
+}
+
+#navbar ul a {
+  padding: 5px;
+  display: block;
+}
+
 #main-doc {
   position: absolute;
   margin-left: 310px;

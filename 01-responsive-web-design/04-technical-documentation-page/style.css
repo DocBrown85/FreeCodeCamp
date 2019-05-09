@@ -70,6 +70,11 @@ code {
   margin-bottom: 110px;
 }
 
+.main-section header {
+  font-size: 20;
+  font-weight: bold;
+}
+
 @media (max-width: 650px) {
 
   #page-wrapper {

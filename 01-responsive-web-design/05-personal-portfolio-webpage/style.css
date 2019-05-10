@@ -44,4 +44,9 @@ section {
   display: block;
   text-decoration: none;
   color: #000000;
+  margin: 15px;
+}
+
+.contact-icon i {
+  font-size: 48px;
 }

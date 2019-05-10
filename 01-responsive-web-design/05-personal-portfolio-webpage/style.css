@@ -44,9 +44,37 @@ section {
   text-decoration: none;
   outline: none;
   color: #000000;
-  margin: 15px;
 }
 
-.contact-icon i {
-  font-size: 48px;
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-linkedin-square {
+  background: #007BB6;
+  color: white;
+}
+
+.fa-github {
+  background: #000000;
+  color: white;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
 }

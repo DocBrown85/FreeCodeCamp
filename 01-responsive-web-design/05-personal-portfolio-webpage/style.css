@@ -2,6 +2,12 @@ html,
 body {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
+  color: #091034;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 nav {
@@ -9,8 +15,8 @@ nav {
   width: 100%;
   top: 0;
   left:0;
-  height: 130px;
-  background-color: #FFF;
+  height: 80px;
+  background-color: #091034;
 }
 
 #navbar ul {
@@ -27,20 +33,51 @@ nav {
 #navbar a {
   display: block;
   text-decoration: none;
-  color: #000000;
+  color: #FBA90A;
 }
 
 section {
   display: block;
   background: #FFF;
-  height:100%;
   width:100%;
-  padding-top: 130px;
+  padding-top: 80px;
   box-sizing: border-box;
 }
 
+.fullscreen {
+  height: 100vh;
+}
+
+#welcome-section {
+  background-color: #FBA90A;
+}
+
+#welcome-section h1 {
+  color: #1430B8;
+}
+
+#welcome-section p {
+  color: #183BF0;
+}
+
+#projects {
+  background-color: #F7EBD4;
+}
+
 #contacts {
-  display:flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #FBA90A;
+  padding-bottom: 80px;
+}
+
+#contacts h2 {
+  margin-bottom: 10px;
+}
+
+#contacts-icons {
+  display: flex;
   flex-direction: row;
   justify-content: center;
 }
@@ -63,7 +100,7 @@ section {
 }
 
 .fa:hover {
-  opacity: 0.7;
+  opacity: 1.0;
 }
 
 .fa-linkedin-square {
@@ -84,4 +121,20 @@ section {
 .fa-twitter {
   background: #55ACEE;
   color: white;
+}
+
+#footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #FBA90A;
+  background-color: #091034;
+}
+
+#footer p {
+  margin: 10px;
+}
+
+#footer a {
+  color: #FBA90A;
 }

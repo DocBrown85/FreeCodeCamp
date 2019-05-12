@@ -53,9 +53,10 @@ section {
 }
 
 .fa {
-  padding: 20px;
-  font-size: 30px;
-  width: 30px;
+  padding: 10px;
+  margin: 10px;
+  font-size: 40px;
+  width: 40px;
   text-align: center;
   text-decoration: none;
   border-radius: 50%;

@@ -159,3 +159,11 @@ section {
 #footer a {
   color: #FBA90A;
 }
+
+@media max-width: 500px {
+
+  .project {
+    width: 100%;
+  }
+
+}

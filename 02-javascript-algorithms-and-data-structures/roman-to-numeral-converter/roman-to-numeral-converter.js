@@ -10,6 +10,22 @@ function convertToRoman(num) {
     1000: 'M'
   };
 
-  return num;
+  let getDigits = function(number) {
+
+    let digits = [];
+    let pow = 0;
+    while ((Math.floor(number / Math.pow(10, pow))) > 0) {
+      digit = (Math.floor(number / Math.pow(10, pow)) % 10);
+      digits.unshift(digit);
+      pow++;
+    }
+
+    return digits;
+
+  };
+
+  return getDigits(num);
 
 }
+
+console.log(convertToRoman(1234));

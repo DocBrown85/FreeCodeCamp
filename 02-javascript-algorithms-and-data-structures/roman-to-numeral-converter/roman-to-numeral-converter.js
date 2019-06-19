@@ -1,4 +1,4 @@
-function convertToRoman(num) {
+function convertToRoman(currentNumber) {
 
   let romanSymbolsMap = {
     1: 'I',
@@ -13,19 +13,22 @@ function convertToRoman(num) {
   let getDigits = function(number) {
 
     let digits = [];
+
     let pow = 0;
-    while ((Math.floor(number / Math.pow(10, pow))) > 0) {
-      digit = (Math.floor(number / Math.pow(10, pow)) % 10);
+    let currentNumber = number;
+    while (currentNumber > 0) {
+      digit = currentNumber % 10;
       digits.unshift(digit);
       pow++;
+      currentNumber = Math.floor(number / Math.pow(10, pow));
     }
 
     return digits;
 
   };
 
-  return getDigits(num);
+  return getDigits(currentNumber);
 
 }
 
-console.log(convertToRoman(1234));
+console.log(convertToRoman(12309));

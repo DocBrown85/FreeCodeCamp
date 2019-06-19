@@ -1,16 +1,6 @@
 function convertToRoman(currentNumber) {
 
-  let romanSymbolsMap = {
-    1: 'I',
-    5: 'V',
-    10: 'X',
-    50: 'L',
-    100: 'C',
-    500: 'D',
-    1000: 'M'
-  };
-
-  let getDigits = function(number) {
+  let getDigitsFromNumeral = function(number) {
 
     let digits = [];
 
@@ -27,8 +17,30 @@ function convertToRoman(currentNumber) {
 
   };
 
-  return getDigits(currentNumber);
+  let getRomanFromDigits = function(numeralDigits) {
+
+    let romanSymbolsMap = {
+      1: 'I',
+      5: 'V',
+      10: 'X',
+      50: 'L',
+      100: 'C',
+      500: 'D',
+      1000: 'M'
+    };
+
+    return 'XXX';
+
+  }
+
+  let numeralDigits = getDigitsFromNumeral(currentNumber);
+  console.log(numeralDigits);
+
+  let roman = getRomanFromDigits(numeralDigits);
+  console.log(roman);
+
+  return roman;
 
 }
 
-console.log(convertToRoman(12309));
+convertToRoman(12309);

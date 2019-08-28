@@ -1,1 +1,4 @@
-/* JavaScript content here */
+;
+var RandomQuoteMachine = (function() {
+
+})();

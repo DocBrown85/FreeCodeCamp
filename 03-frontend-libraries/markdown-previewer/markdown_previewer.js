@@ -1,3 +1,7 @@
+/*
+ * Initialise Marked component
+ */
+
 marked.setOptions({
   breaks: true,
 });
@@ -6,6 +10,10 @@ const renderer = new marked.Renderer();
 renderer.link = function(href, title, text) {
   return `<a target="_blank" href="${href}">${text}` + '</a>';
 }
+
+/*
+ * Markdown content placeholder
+ */
 
 const placeholder =
   `# Welcome to my React Markdown Previewer!
@@ -54,6 +62,11 @@ And here. | Okay. | I think we get it.
 
 ![React Logo w/ Text](https://goo.gl/Umyytc)
 `
+
+/*
+ * MarkdownPreviewer component
+ */
+
 const Editor = (props) => {
   return <textarea id = "editor"
   type = "text"

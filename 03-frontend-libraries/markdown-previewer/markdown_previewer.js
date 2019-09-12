@@ -76,7 +76,7 @@ const Editor = (props) => {
   onChange = {
     props.onChange
   }
-  / > ;
+  / >;
 }
 
 const Preview = (props) => {
@@ -88,7 +88,7 @@ const Preview = (props) => {
       })
     }
   }
-  / > ;
+  / >;
 }
 
 class MarkdownPreviewer extends React.Component {
@@ -107,7 +107,7 @@ class MarkdownPreviewer extends React.Component {
   }
 
   render() {
-    return <div > < Editor markdown = {
+    return <div id = "markdown-previewer" > < Editor markdown = {
       this.state.markdown
     }
     onChange = {

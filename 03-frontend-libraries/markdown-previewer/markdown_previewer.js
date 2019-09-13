@@ -68,7 +68,7 @@ And here. | Okay. | I think we get it.
  */
 
 const Editor = (props) => {
-  return <textarea id = "editor"
+  return <div id = "editor-container" > < h1 > Editor < / h1 > < textarea id = "editor"
   type = "text"
   value = {
     props.markdown
@@ -76,11 +76,11 @@ const Editor = (props) => {
   onChange = {
     props.onChange
   }
-  / >;
+  / > </div > ;
 }
 
 const Preview = (props) => {
-  return <div id = "preview"
+  return <div id = "preview-container" > < h1 > Preview < / h1 > < div id = "preview"
   dangerouslySetInnerHTML = {
     {
       __html: marked(props.markdown, {
@@ -88,7 +88,7 @@ const Preview = (props) => {
       })
     }
   }
-  / >;
+  / > </div > ;
 }
 
 class MarkdownPreviewer extends React.Component {

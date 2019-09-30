@@ -1,6 +1,18 @@
 /*
  * DrumMachine component
  */
+
+const DrumPad = (props) => {
+  return ( <
+    div id = {
+      `drum-pad-${props.padId}`
+    }
+    class = 'drum-pad' > {
+      props.padId
+    } < /div>
+  )
+}
+
 class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
@@ -13,8 +25,19 @@ class DrumMachine extends React.Component {
   }
 
   render() {
-    return <div id = "drum-machine" > DRUM MACHINE </div>
- }
+    let drumPads = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'].map((item, index) => {
+      return <DrumPad padId = {
+        item
+      }
+      key = {
+        index
+      }
+      / >
+    });
+    return <div id = "drum-machine" > < div id = "display" > {
+      drumPads
+    } < /div> < /div >
+  }
 }
 
 ReactDOM.render( < DrumMachine / > , document.querySelector('#drum-machine-root'));

@@ -2,6 +2,12 @@
  * DrumMachine component
  */
 
+const Display = (props) => {
+  return ( <
+    div id = "display" > DISPLAY < /div>
+  )
+}
+
 const DrumPad = (props) => {
   return ( <
     div id = {
@@ -34,9 +40,9 @@ class DrumMachine extends React.Component {
       }
       / >
     });
-    return <div id = "drum-machine" > < div id = "display" > {
+    return <div id = "drum-machine" > < Display / > < div id = "pads-container" > {
       drumPads
-    } < /div> < /div >
+    } < /div > < /div >
   }
 }
 

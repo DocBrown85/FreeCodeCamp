@@ -111,7 +111,7 @@ const DrumPad = (props) => {
     }
     className = 'drum-pad'
     onClick = {
-      props.handlePadOnClick
+      (e) => props.handlePadOnClick(e, props)
     } >
     <
     audio className = 'clip'
@@ -136,14 +136,35 @@ class DrumMachine extends React.Component {
       display: "display"
     };
     this.handlePadOnClick = this.handlePadOnClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handlePadTrigger = this.handlePadTrigger.bind(this);
   }
 
-  handlePadOnClick(e) {
-    console.log(e.target)
-    this.setState({
-      display: e.target.keyTrigger
-    });
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress)
+  }
 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress)
+  }
+
+  handlePadOnClick(e, data) {
+    this.handlePadTrigger(data)
+  }
+
+  handleKeyPress(e) {
+    bankOne.forEach((item, index) => {
+      if (item.keyCode == e.keyCode) {
+        this.handlePadTrigger(item)
+      }
+    })
+  }
+
+  handlePadTrigger(data) {
+    this.setState({
+      display: data.keyTrigger
+    });
+    playClip()
   }
 
   playClip() {

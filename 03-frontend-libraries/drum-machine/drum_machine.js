@@ -104,29 +104,44 @@ const Display = (props) => {
   )
 }
 
-const DrumPad = (props) => {
-  return ( <
-    div id = {
-      `drum-pad-${props.keyTrigger}`
-    }
-    className = 'drum-pad'
-    onClick = {
-      (e) => props.handlePadOnClick(e, props)
-    } >
-    <
-    audio className = 'clip'
-    src = {
-      props.clip
-    }
-    id = {
-      props.keyTrigger
-    } >
-    <
-    /audio> {
-    props.keyTrigger
-  } < /
-  div >
-)
+class DrumPad extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", (e) => this.props.handleKeyPress(e, this.props));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", (e) => this.props.handleKeyPress(e, this.props));
+  }
+
+  render() {
+    return ( <
+      div id = {
+        `drum-pad-${this.props.keyTrigger}`
+      }
+      className = 'drum-pad'
+      onClick = {
+        (e) => this.props.handlePadOnClick(e, this.props)
+      } >
+      <
+      audio className = 'clip'
+      src = {
+        this.props.clip
+      }
+      id = {
+        this.props.keyTrigger
+      } >
+      <
+      /audio> {
+      this.props.keyTrigger
+    } < /
+    div >
+  )
+}
+
 }
 
 class DrumMachine extends React.Component {
@@ -140,35 +155,25 @@ class DrumMachine extends React.Component {
     this.handlePadTrigger = this.handlePadTrigger.bind(this);
   }
 
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyPress)
-  }
-
   handlePadOnClick(e, data) {
-    this.handlePadTrigger(data)
+    this.handlePadTrigger(data);
   }
 
-  handleKeyPress(e) {
-    bankOne.forEach((item, index) => {
-      if (item.keyCode == e.keyCode) {
-        this.handlePadTrigger(item)
-      }
-    })
+  handleKeyPress(e, data) {
+    if (e.keyCode == data.keyCode) {
+      this.handlePadTrigger(data);
+    }
   }
 
   handlePadTrigger(data) {
     this.setState({
       display: data.keyTrigger
     });
-    playClip()
+    this.playClip(data.clip);
   }
 
-  playClip() {
-
+  playClip(clip) {
+    console.log("playing clip: " + clip);
   }
 
   render() {
@@ -190,6 +195,9 @@ class DrumMachine extends React.Component {
       }
       handlePadOnClick = {
         this.handlePadOnClick
+      }
+      handleKeyPress = {
+        this.handleKeyPress
       }
       / >
     });

@@ -169,11 +169,12 @@ class DrumMachine extends React.Component {
     this.setState({
       display: data.keyTrigger
     });
-    this.playClip(data.clip);
+    this.playClip(data);
   }
 
-  playClip(clip) {
-    console.log("playing clip: " + clip);
+  playClip(data) {
+    const sound = document.getElementById(data.keyTrigger);
+    sound.play();
   }
 
   render() {

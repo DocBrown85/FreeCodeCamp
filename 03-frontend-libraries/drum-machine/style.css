@@ -3,11 +3,14 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #2E5077;
 }
 
 #drum-machine {
   display: flex;
   flex-direction: column;
+  background-color: #D7E8BA;
+  border: 5px solid #291F1E;
 }
 
 #display {
@@ -20,6 +23,8 @@ body {
   display: grid;
   grid-template-rows: 100px 100px 100px;
   grid-template-columns: 100px 100px 100px;
+  padding: 10px;
+  background-color: #4DA1A9;
 }
 
 .drum-pad {
@@ -27,4 +32,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin: 5px;
+  border-radius: 15px;
+  background-color: #FFA630;
+  box-shadow: 5px 5px 1px #EA982C;
 }

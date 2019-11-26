@@ -4,3 +4,26 @@ body {
   align-items: center;
   height: 100vh;
 }
+
+#drum-machine {
+  display: flex;
+  flex-direction: column;
+}
+
+#display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pads-container {
+  display: grid;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-columns: 100px 100px 100px;
+}
+
+.drum-pad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

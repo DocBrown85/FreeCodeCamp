@@ -47,3 +47,8 @@ body {
   background-color: #FFA630;
   box-shadow: 5px 5px 1px #EA982C;
 }
+
+.drum-pad:hover {
+  background-color: #E8962C;
+  box-shadow: 5px 5px 1px #D18727;
+}

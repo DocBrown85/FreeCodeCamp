@@ -148,7 +148,7 @@ class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "display"
+      display: ""
     };
     this.handlePadOnClick = this.handlePadOnClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);

@@ -167,7 +167,7 @@ class DrumMachine extends React.Component {
 
   handlePadTrigger(data) {
     this.setState({
-      display: data.keyTrigger
+      display: data.clipId
     });
     this.playClip(data);
   }

@@ -45,10 +45,15 @@ body {
   margin: 5px;
   border-radius: 15px;
   background-color: #FFA630;
-  box-shadow: 5px 5px 1px #EA982C;
+  box-shadow: 0 7px #EA982C;
 }
 
 .drum-pad:hover {
   background-color: #E8962C;
-  box-shadow: 5px 5px 1px #D18727;
+  box-shadow: 0 7px #D18727;
+}
+
+.drum-pad:active {
+  box-shadow: 0 3px #D18727;
+  transform: translateY(2px);
 }

@@ -119,7 +119,7 @@ class DrumPad extends React.Component {
 
   render() {
     return ( <
-      div id = {
+      a id = {
         `drum-pad-${this.props.keyTrigger}`
       }
       className = 'drum-pad'
@@ -138,7 +138,7 @@ class DrumPad extends React.Component {
       /audio> {
       this.props.keyTrigger
     } < /
-    div >
+    a >
   )
 }
 

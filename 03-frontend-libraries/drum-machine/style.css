@@ -10,13 +10,15 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #D7E8BA;
-  border: 5px solid #291F1E;
+  border: 7px solid #291F1E;
+  border-radius: 5px;
 }
 
 #display {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 90px;
 }
 
 #pads-container {
@@ -25,6 +27,7 @@ body {
   grid-template-columns: 100px 100px 100px;
   padding: 10px;
   background-color: #4DA1A9;
+  border-top: 7px solid #291F1E;
 }
 
 .drum-pad {

@@ -155,6 +155,18 @@ class DrumPad extends React.Component {
   }
 }
 
+const BankSelector = props => {
+  return (
+    <div id="bank-selector-container">
+      <span className="label">Bank</span>
+      <label className="switch">
+        <input type="checkbox" />
+        <span className="slider" />
+      </label>
+    </div>
+  );
+};
+
 class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
@@ -207,7 +219,12 @@ class DrumMachine extends React.Component {
       <div id="drum-machine">
         {" "}
         <Display display={this.state.display} />{" "}
-        <div id="pads-container"> {drumPads} </div>{" "}
+        <div id="wrapper">
+          <div id="pads-container"> {drumPads} </div>{" "}
+          <div id="controls-container">
+            <BankSelector />
+          </div>
+        </div>
       </div>
     );
   }

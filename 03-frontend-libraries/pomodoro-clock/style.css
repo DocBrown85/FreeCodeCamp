@@ -14,13 +14,32 @@
   flex-direction: column;
 }
 
+.timer-display {
+  text-align: center;
+}
+
 #timer-lenght-controls-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+}
+
+.timer-length-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.timer-length-control .display {
+  text-align: center;
 }
 
 #timer-buttons-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.button {
+  cursor: pointer;
 }

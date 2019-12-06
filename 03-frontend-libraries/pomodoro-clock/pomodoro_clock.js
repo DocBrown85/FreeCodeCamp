@@ -5,7 +5,7 @@ class TimerDisplay extends React.Component {
   }
 
   render() {
-    return <div className="timer-display">Timer Display</div>;
+    return <div className="timer-display">42</div>;
   }
 }
 
@@ -16,7 +16,13 @@ class TimerLengthControl extends React.Component {
   }
 
   render() {
-    return <div className="timer-lenght-control">Length Control</div>;
+    return (
+      <div className="timer-length-control">
+        <div className="button fa fa-arrow-up fa-2x" />
+        <div className="display">42</div>
+        <div className="button fa fa-arrow-down fa-2x" />
+      </div>
+    );
   }
 }
 
@@ -34,18 +40,9 @@ class TimerControls extends React.Component {
           <TimerLengthControl />
         </div>
         <div id="timer-buttons-container">
-          <div
-            id="timer-button-play"
-            className="timer-button fa fa-play fa-2x"
-          />
-          <div
-            id="timer-button-pause"
-            className="timer-button fa fa-pause fa-2x"
-          />
-          <div
-            id="timer-button-reset"
-            className="timer-button fa fa-refresh fa-2x"
-          />
+          <div id="timer-button-play" className="button fa fa-play fa-2x" />
+          <div id="timer-button-pause" className="button fa fa-pause fa-2x" />
+          <div id="timer-button-reset" className="button fa fa-refresh fa-2x" />
         </div>
       </div>
     );

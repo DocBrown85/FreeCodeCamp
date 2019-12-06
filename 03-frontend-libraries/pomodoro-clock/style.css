@@ -1,0 +1,26 @@
+#pomodoro-clock-root {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.application-title {
+  text-align: center;
+}
+
+#pomodoro-clock {
+  display: flex;
+  flex-direction: column;
+}
+
+#timer-lenght-controls-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#timer-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

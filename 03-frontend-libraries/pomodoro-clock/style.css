@@ -14,8 +14,13 @@
   flex-direction: column;
 }
 
-.timer-display {
+.timer-display .display {
   text-align: center;
+}
+
+.timer-display .label {
+  text-align: center;
+  text-transform: capitalize;
 }
 
 #timer-lenght-controls-container {
@@ -25,6 +30,17 @@
 }
 
 .timer-length-control {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.timer-length-control .label-quantity {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.timer-length-control-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -185,9 +185,9 @@ class PomodoroClock extends React.Component {
     this.setState(nextState);
   }
 
-  clockify() {
-    let minutes = Math.floor(this.state.currentContext.expiryTime / 60);
-    let seconds = this.state.timer - minutes * 60;
+  clockify(timer) {
+    let minutes = Math.floor(timer / 60);
+    let seconds = timer - minutes * 60;
     seconds = seconds < 10 ? "0" + seconds : seconds;
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return minutes + ":" + seconds;
@@ -199,7 +199,7 @@ class PomodoroClock extends React.Component {
         <h2 className="application-title">Pomodoro Clock</h2>
         <TimerDisplay
           name={this.state.currentContext.name}
-          expiryTime={this.state.currentContext.expiryTime}
+          expiryTime={this.clockify(this.state.currentContext.expiryTime)}
         />
         <TimerControls
           sessionLength={this.state.sessionLength}

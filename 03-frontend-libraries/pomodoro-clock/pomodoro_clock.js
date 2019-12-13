@@ -11,7 +11,7 @@ class TimerDisplay extends React.Component {
           {this.props.name}
         </div>
         <div id="time-left" className="display">
-          {this.props.elapsedTime}
+          {this.props.expiryTime}
         </div>
       </div>
     );
@@ -103,11 +103,13 @@ class PomodoroClock extends React.Component {
     this.state = {
       breakLength: 5,
       sessionLength: 25,
-      currentSession: {
+      contextRunning: false,
+      currentContext: {
         name: "session",
-        elapsedTime: 23
+        expiryTime: 23
       }
     };
+    this.timer = null;
     this.sessionIncrement = this.sessionIncrement.bind(this);
     this.sessionDecrement = this.sessionDecrement.bind(this);
     this.breakIncrement = this.breakIncrement.bind(this);
@@ -115,6 +117,8 @@ class PomodoroClock extends React.Component {
     this.timerStart = this.timerStart.bind(this);
     this.timerStop = this.timerStop.bind(this);
     this.timerReset = this.timerReset.bind(this);
+    this.timerCallback = this.timerCallback.bind(this);
+    this.contextSwitch = this.contextSwitch.bind(this);
   }
 
   sessionIncrement() {
@@ -142,15 +146,51 @@ class PomodoroClock extends React.Component {
   }
 
   timerStart() {
-    console.log("timer start");
+    let nextState = Object.assign({}, this.state);
+    nextState.contextRunning = true;
+    this.timer = setInterval(this.timerCallback, 1000);
+    this.setState(nextState);
   }
 
   timerStop() {
-    console.log("timer stop");
+    clearInterval(this.timer);
+    let nextState = Object.assign({}, this.state);
+    nextState.contextRunning = false;
+    this.setState(nextState);
   }
 
   timerReset() {
     console.log("timer reset");
+  }
+
+  timerCallback() {
+    if (this.state.currentContext.expiryTime === 0) {
+      this.contextSwitch();
+    } else {
+      let nextState = Object.assign({}, this.state);
+      nextState.currentContext.expiryTime -= 1;
+      this.setState(nextState);
+    }
+  }
+
+  contextSwitch() {
+    let nextState = Object.assign({}, this.state);
+    if (this.state.currentContext.name == "session") {
+      nextState.currentContext.name = "break";
+      nextState.currentContext.expiryTime = this.state.breakLength;
+    } else {
+      nextState.currentContext.name = "session";
+      nextState.currentContext.expiryTime = this.state.sessionLength;
+    }
+    this.setState(nextState);
+  }
+
+  clockify() {
+    let minutes = Math.floor(this.state.currentContext.expiryTime / 60);
+    let seconds = this.state.timer - minutes * 60;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    return minutes + ":" + seconds;
   }
 
   render() {
@@ -158,8 +198,8 @@ class PomodoroClock extends React.Component {
       <div id="pomodoro-clock">
         <h2 className="application-title">Pomodoro Clock</h2>
         <TimerDisplay
-          name={this.state.currentSession.name}
-          elapsedTime={this.state.currentSession.elapsedTime}
+          name={this.state.currentContext.name}
+          expiryTime={this.state.currentContext.expiryTime}
         />
         <TimerControls
           sessionLength={this.state.sessionLength}

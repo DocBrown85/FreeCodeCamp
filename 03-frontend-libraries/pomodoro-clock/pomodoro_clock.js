@@ -11,7 +11,7 @@ class TimerDisplay extends React.Component {
           {this.props.name}
         </div>
         <div id="time-left" className="display">
-          {this.props.expiryTime}
+          {this.props.timeLeft}
         </div>
       </div>
     );
@@ -106,7 +106,7 @@ class PomodoroClock extends React.Component {
       contextRunning: false,
       currentContext: {
         name: "session",
-        expiryTime: 23
+        timeLeft: 1500
       }
     };
     this.timer = null;
@@ -164,11 +164,11 @@ class PomodoroClock extends React.Component {
   }
 
   timerCallback() {
-    if (this.state.currentContext.expiryTime === 0) {
+    if (this.state.currentContext.timeLeft === 0) {
       this.contextSwitch();
     } else {
       let nextState = Object.assign({}, this.state);
-      nextState.currentContext.expiryTime -= 1;
+      nextState.currentContext.timeLeft -= 1;
       this.setState(nextState);
     }
   }
@@ -177,10 +177,10 @@ class PomodoroClock extends React.Component {
     let nextState = Object.assign({}, this.state);
     if (this.state.currentContext.name == "session") {
       nextState.currentContext.name = "break";
-      nextState.currentContext.expiryTime = this.state.breakLength;
+      nextState.currentContext.timeLeft = this.state.breakLength;
     } else {
       nextState.currentContext.name = "session";
-      nextState.currentContext.expiryTime = this.state.sessionLength;
+      nextState.currentContext.timeLeft = this.state.sessionLength;
     }
     this.setState(nextState);
   }
@@ -199,7 +199,7 @@ class PomodoroClock extends React.Component {
         <h2 className="application-title">Pomodoro Clock</h2>
         <TimerDisplay
           name={this.state.currentContext.name}
-          expiryTime={this.clockify(this.state.currentContext.expiryTime)}
+          timeLeft={this.clockify(this.state.currentContext.timeLeft)}
         />
         <TimerControls
           sessionLength={this.state.sessionLength}

@@ -74,17 +74,9 @@ class TimerControls extends React.Component {
           />
         </div>
         <div id="timer-buttons-container">
-          <div id="start_stop">
-            <div
-              id="timer-button-play"
-              className="button fa fa-play fa-2x"
-              onClick={this.props.timerStart}
-            />
-            <div
-              id="timer-button-pause"
-              className="button fa fa-pause fa-2x"
-              onClick={this.props.timerStop}
-            />
+          <div id="start_stop" onClick={this.props.timerStartStopBtnOnClick}>
+            <div id="timer-button-play" className="button fa fa-play fa-2x" />
+            <div id="timer-button-pause" className="button fa fa-pause fa-2x" />
           </div>
           <div
             id="reset"
@@ -125,6 +117,7 @@ class PomodoroClock extends React.Component {
     this.contextSwitch = this.contextSwitch.bind(this);
     this.clockify = this.clockify.bind(this);
     this.lengthControl = this.lengthControl.bind(this);
+    this.timerStartStopBtnOnClick = this.timerStartStopBtnOnClick.bind(this);
   }
 
   sessionIncrement() {
@@ -166,9 +159,6 @@ class PomodoroClock extends React.Component {
   }
 
   timerStart() {
-    if (this.state.contextRunning == true) {
-      return;
-    }
     let nextState = Object.assign({}, this.state);
     nextState.contextRunning = true;
     this.timer = setInterval(this.timerCallback, 1000);
@@ -239,6 +229,14 @@ class PomodoroClock extends React.Component {
     return result;
   }
 
+  timerStartStopBtnOnClick() {
+    if (this.state.contextRunning == true) {
+      this.timerStop();
+    } else {
+      this.timerStart();
+    }
+  }
+
   render() {
     return (
       <div id="pomodoro-clock">
@@ -254,8 +252,7 @@ class PomodoroClock extends React.Component {
           breakLength={this.state.breakLength}
           breakIncrement={this.breakIncrement}
           breakDecrement={this.breakDecrement}
-          timerStart={this.timerStart}
-          timerStop={this.timerStop}
+          timerStartStopBtnOnClick={this.timerStartStopBtnOnClick}
           timerReset={this.timerReset}
         />
       </div>

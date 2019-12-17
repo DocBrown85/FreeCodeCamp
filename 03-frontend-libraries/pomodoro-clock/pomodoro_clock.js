@@ -100,13 +100,17 @@ class TimerControls extends React.Component {
 class PomodoroClock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.defaults = {
       breakLength: 5,
-      sessionLength: 25,
+      sessionLength: 25
+    };
+    this.state = {
+      breakLength: this.defaults.breakLength,
+      sessionLength: this.defaults.sessionLength,
       contextRunning: false,
       currentContext: {
         name: "session",
-        timeLeft: 1500
+        timeLeft: this.defaults.sessionLength * 60
       }
     };
     this.timer = null;
@@ -119,33 +123,52 @@ class PomodoroClock extends React.Component {
     this.timerReset = this.timerReset.bind(this);
     this.timerCallback = this.timerCallback.bind(this);
     this.contextSwitch = this.contextSwitch.bind(this);
+    this.clockify = this.clockify.bind(this);
+    this.lengthControl = this.lengthControl.bind(this);
   }
 
   sessionIncrement() {
+    if (this.state.contextRunning == true) {
+      return;
+    }
     let nextState = Object.assign({}, this.state);
-    nextState.sessionLength += 1;
+    nextState.sessionLength = this.lengthControl(nextState.sessionLength, +1);
+    nextState.currentContext.timeLeft = nextState.sessionLength * 60;
     this.setState(nextState);
   }
 
   sessionDecrement() {
+    if (this.state.contextRunning == true) {
+      return;
+    }
     let nextState = Object.assign({}, this.state);
-    nextState.sessionLength -= 1;
+    nextState.sessionLength = this.lengthControl(nextState.sessionLength, -1);
+    nextState.currentContext.timeLeft = nextState.sessionLength * 60;
     this.setState(nextState);
   }
 
   breakIncrement() {
+    if (this.state.contextRunning == true) {
+      return;
+    }
     let nextState = Object.assign({}, this.state);
-    nextState.breakLength += 1;
+    nextState.breakLength = this.lengthControl(nextState.breakLength, +1);
     this.setState(nextState);
   }
 
   breakDecrement() {
+    if (this.state.contextRunning == true) {
+      return;
+    }
     let nextState = Object.assign({}, this.state);
-    nextState.breakLength -= 1;
+    nextState.breakLength = this.lengthControl(nextState.breakLength, -1);
     this.setState(nextState);
   }
 
   timerStart() {
+    if (this.state.contextRunning == true) {
+      return;
+    }
     let nextState = Object.assign({}, this.state);
     nextState.contextRunning = true;
     this.timer = setInterval(this.timerCallback, 1000);
@@ -154,13 +177,26 @@ class PomodoroClock extends React.Component {
 
   timerStop() {
     clearInterval(this.timer);
+    this.timer = null;
+
     let nextState = Object.assign({}, this.state);
     nextState.contextRunning = false;
     this.setState(nextState);
   }
 
   timerReset() {
-    console.log("timer reset");
+    clearInterval(this.timer);
+    this.timer = null;
+
+    let nextState = Object.assign({}, this.state);
+    nextState.contextRunning = false;
+    nextState.breakLength = this.defaults.breakLength;
+    nextState.sessionLength = this.defaults.sessionLength;
+    nextState.currentContext = {
+      name: "session",
+      timeLeft: this.defaults.sessionLength * 60
+    };
+    this.setState(nextState);
   }
 
   timerCallback() {
@@ -177,10 +213,10 @@ class PomodoroClock extends React.Component {
     let nextState = Object.assign({}, this.state);
     if (this.state.currentContext.name == "session") {
       nextState.currentContext.name = "break";
-      nextState.currentContext.timeLeft = this.state.breakLength;
+      nextState.currentContext.timeLeft = this.state.breakLength * 60;
     } else {
       nextState.currentContext.name = "session";
-      nextState.currentContext.timeLeft = this.state.sessionLength;
+      nextState.currentContext.timeLeft = this.state.sessionLength * 60;
     }
     this.setState(nextState);
   }
@@ -191,6 +227,16 @@ class PomodoroClock extends React.Component {
     seconds = seconds < 10 ? "0" + seconds : seconds;
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return minutes + ":" + seconds;
+  }
+
+  lengthControl(length, delta) {
+    let result = length + delta;
+    if (result > 60) {
+      result = 60;
+    } else if (result <= 0) {
+      result = 1;
+    }
+    return result;
   }
 
   render() {

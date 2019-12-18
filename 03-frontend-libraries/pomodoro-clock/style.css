@@ -6,9 +6,6 @@
 
 body {
   font-family: 'Digital';
-}
-
-#pomodoro-clock-root {
   height: 100vh;
   display: flex;
   align-items: center;
@@ -16,8 +13,13 @@ body {
   background-color: #00B5AD;
 }
 
+#pomodoro-clock-root {
+  background-color: #00B5AD;
+}
+
 .application-title {
   text-align: center;
+  font-size: 80px;
 }
 
 #pomodoro-clock {
@@ -26,16 +28,21 @@ body {
   color: #004066;
 }
 
-.timer-display .display {
-  text-align: center;
+.timer-display {
   border-radius: 15px;
   border: 5px solid #004066;
+}
+
+.timer-display .display {
+  text-align: center;
   padding: 20px;
+  font-size: 40px;
 }
 
 .timer-display .label {
   text-align: center;
   text-transform: capitalize;
+  font-size: 40px;
 }
 
 #timer-lenght-controls-container {
@@ -53,6 +60,7 @@ body {
 .timer-length-control .label-quantity {
   text-align: center;
   text-transform: capitalize;
+  font-size: 30px;
 }
 
 .timer-length-control-buttons {
@@ -63,6 +71,7 @@ body {
 
 .timer-length-control .display {
   text-align: center;
+  font-size: 30px;
 }
 
 #timer-buttons-container {

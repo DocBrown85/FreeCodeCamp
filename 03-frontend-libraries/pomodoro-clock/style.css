@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #00B5AD;
 }
 
 .application-title {
@@ -12,10 +13,14 @@
 #pomodoro-clock {
   display: flex;
   flex-direction: column;
+  color: #004066;
 }
 
 .timer-display .display {
   text-align: center;
+  border-radius: 15px;
+  border: 5px solid #004066;
+  padding: 20px;
 }
 
 .timer-display .label {

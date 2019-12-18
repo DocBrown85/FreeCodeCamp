@@ -106,6 +106,7 @@ class PomodoroClock extends React.Component {
       }
     };
     this.timer = null;
+    this.beeper = null;
     this.sessionIncrement = this.sessionIncrement.bind(this);
     this.sessionDecrement = this.sessionDecrement.bind(this);
     this.breakIncrement = this.breakIncrement.bind(this);
@@ -178,6 +179,9 @@ class PomodoroClock extends React.Component {
     clearInterval(this.timer);
     this.timer = null;
 
+    this.beeper.pause();
+    this.beeper.currentTime = 0;
+
     let nextState = Object.assign({}, this.state);
     nextState.contextRunning = false;
     nextState.breakLength = this.defaults.breakLength;
@@ -192,6 +196,7 @@ class PomodoroClock extends React.Component {
   timerCallback() {
     if (this.state.currentContext.timeLeft === 0) {
       this.contextSwitch();
+      this.beeper.play();
     } else {
       let nextState = Object.assign({}, this.state);
       nextState.currentContext.timeLeft -= 1;
@@ -254,6 +259,13 @@ class PomodoroClock extends React.Component {
           breakDecrement={this.breakDecrement}
           timerStartStopBtnOnClick={this.timerStartStopBtnOnClick}
           timerReset={this.timerReset}
+        />
+        <audio
+          id="beep"
+          src="https://goo.gl/65cBl1"
+          ref={element => {
+            this.beeper = element;
+          }}
         />
       </div>
     );

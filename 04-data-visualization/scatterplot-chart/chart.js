@@ -35,10 +35,32 @@ d3.json(
 
   var xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
 
+  var yData = data.map(function(item) {
+    var parsedTime = item.Time.split(":");
+    var date = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
+    return date;
+  });
+
+  var yScale = d3
+    .scaleTime()
+    .range([0, height])
+    .domain(d3.extent(yData));
+
+  console.log(d3.extent(yData));
+
+  var yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
+
   svg
+    .attr("class", "x axis")
+    .attr("id", "x-axis")
     .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    .append("text")
-    .text("Year");
+    .attr("transform", "translate(" + margin.left + "," + height + ")")
+    .call(xAxis);
+
+  svg
+    .attr("class", "y axis")
+    .attr("id", "y-axis")
+    .append("g")
+    .attr("transform", "translate(" + margin.left + ", 0)")
+    .call(yAxis);
 });

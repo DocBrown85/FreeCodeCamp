@@ -46,8 +46,6 @@ d3.json(
     .range([0, height])
     .domain(d3.extent(yData));
 
-  console.log(d3.extent(yData));
-
   var yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
   svg

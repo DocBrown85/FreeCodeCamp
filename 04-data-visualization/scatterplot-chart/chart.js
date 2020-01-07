@@ -55,15 +55,46 @@ d3.json(
     .append("g")
     .attr("class", "x axis")
     .attr("id", "x-axis")
-    .attr("transform", "translate(" + margin.left + "," + height + ")")
+    .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
 
   svg
     .append("g")
     .attr("class", "y axis")
     .attr("id", "y-axis")
-    .attr("transform", "translate(" + margin.left + ", 0)")
+    //.attr("transform", "rotate(0)")
     .call(yAxis);
+
+  data.forEach(function(d) {
+    d.Place = +d.Place;
+    var parsedTime = d.Time.split(":");
+    d.Time = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
+  });
+
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  svg
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("r", 6)
+    .attr("cx", function(d) {
+      return xScale(d.Year);
+    })
+    .attr("cy", function(d) {
+      return yScale(d.Time);
+    })
+    .attr("data-xvalue", function(d) {
+      return d.Year;
+    })
+    .attr("data-yvalue", function(d) {
+      return d.Time.toISOString();
+    })
+    .style("fill", function(d) {
+      return color(d.Doping != "");
+    });
 
   //title
   svg

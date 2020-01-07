@@ -4,15 +4,18 @@ d3.json(
   console.log(data);
 
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 30, left: 60};
-  var width = 460 - margin.left - margin.right;
-  var height = 400 - margin.top - margin.bottom;
+  var margin = {top: 100, right: 20, bottom: 30, left: 60};
+  var width = 920 - margin.left - margin.right;
+  var height = 630 - margin.top - margin.bottom;
 
   var svg = d3
     .select("#chart")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("class", "graph")
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   /*
    * Setup axes
@@ -49,16 +52,26 @@ d3.json(
   var yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
   svg
+    .append("g")
     .attr("class", "x axis")
     .attr("id", "x-axis")
-    .append("g")
     .attr("transform", "translate(" + margin.left + "," + height + ")")
     .call(xAxis);
 
   svg
+    .append("g")
     .attr("class", "y axis")
     .attr("id", "y-axis")
-    .append("g")
     .attr("transform", "translate(" + margin.left + ", 0)")
     .call(yAxis);
+
+  //title
+  svg
+    .append("text")
+    .attr("id", "title")
+    .attr("x", width / 2)
+    .attr("y", 0 - margin.top / 2)
+    .attr("text-anchor", "middle")
+    .style("font-size", "30px")
+    .text("Doping in Professional Bicycle Racing");
 });

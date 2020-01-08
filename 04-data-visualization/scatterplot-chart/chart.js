@@ -17,6 +17,9 @@ d3.json(
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // set general graph options
+  var timeFormat = d3.timeFormat("%M:%S");
+
   /*
    * Setup axes
    */
@@ -49,7 +52,7 @@ d3.json(
     .range([0, height])
     .domain(d3.extent(yData));
 
-  var yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
+  var yAxis = d3.axisLeft(yScale).tickFormat(timeFormat);
 
   svg
     .append("g")
@@ -64,6 +67,14 @@ d3.json(
     .attr("id", "y-axis")
     //.attr("transform", "rotate(0)")
     .call(yAxis);
+
+  //add the DIV for the tooltip
+  var div = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .attr("id", "tooltip")
+    .style("opacity", 0);
 
   data.forEach(function(d) {
     d.Place = +d.Place;
@@ -105,4 +116,36 @@ d3.json(
     .attr("text-anchor", "middle")
     .style("font-size", "30px")
     .text("Doping in Professional Bicycle Racing");
+
+  //legend
+  var legend = svg
+    .selectAll(".legend")
+    .data(color.domain())
+    .enter()
+    .append("g")
+    .attr("class", "legend")
+    .attr("id", "legend")
+    .attr("transform", function(d, i) {
+      return "translate(0," + (height / 2 - i * 20) + ")";
+    });
+
+  legend
+    .append("rect")
+    .attr("x", width - 18)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", color);
+
+  legend
+    .append("text")
+    .attr("x", width - 24)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .style("text-anchor", "end")
+    .text(function(d) {
+      if (d) return "Riders with doping allegations";
+      else {
+        return "No doping allegations";
+      }
+    });
 });

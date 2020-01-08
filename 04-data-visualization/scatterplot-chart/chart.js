@@ -19,6 +19,7 @@ d3.json(
 
   // set general graph options
   var timeFormat = d3.timeFormat("%M:%S");
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
 
   /*
    * Setup axes
@@ -68,7 +69,7 @@ d3.json(
     //.attr("transform", "rotate(0)")
     .call(yAxis);
 
-  //add the DIV for the tooltip
+  // add the DIV for the tooltip
   var div = d3
     .select("body")
     .append("div")
@@ -81,8 +82,6 @@ d3.json(
     var parsedTime = d.Time.split(":");
     d.Time = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
   });
-
-  var color = d3.scaleOrdinal(d3.schemeCategory10);
 
   svg
     .selectAll("circle")
@@ -105,9 +104,30 @@ d3.json(
     })
     .style("fill", function(d) {
       return color(d.Doping != "");
+    })
+    .on("mouseover", function(d) {
+      div.style("opacity", 0.9);
+      div.attr("data-year", d.Year);
+      div
+        .html(
+          d.Name +
+            ": " +
+            d.Nationality +
+            "<br/>" +
+            "Year: " +
+            d.Year +
+            ", Time: " +
+            timeFormat(d.Time) +
+            (d.Doping ? "<br/><br/>" + d.Doping : "")
+        )
+        .style("left", d3.event.pageX + "px")
+        .style("top", d3.event.pageY - 28 + "px");
+    })
+    .on("mouseout", function(d) {
+      div.style("opacity", 0);
     });
 
-  //title
+  // title
   svg
     .append("text")
     .attr("id", "title")
@@ -117,7 +137,7 @@ d3.json(
     .style("font-size", "30px")
     .text("Doping in Professional Bicycle Racing");
 
-  //legend
+  // legend
   var legend = svg
     .selectAll(".legend")
     .data(color.domain())

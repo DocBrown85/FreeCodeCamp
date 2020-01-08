@@ -1,7 +1,6 @@
 d3.json(
   "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
 ).then(function(data) {
-
   // set the dimensions and margins of the graph
   var margin = {top: 100, right: 20, bottom: 30, left: 60};
   var width = 920 - margin.left - margin.right;
@@ -20,37 +19,37 @@ d3.json(
   var timeFormat = d3.timeFormat("%M:%S");
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
+  data.forEach(function(d) {
+    d.Place = +d.Place;
+    var parsedTime = d.Time.split(":");
+    d.Time = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
+  });
+
   /*
    * Setup axes
    */
-  var xData = data.map(function(item) {
-    return item.Year;
-  });
-
   var xScale = d3
     .scaleLinear()
     .range([0, width])
     .domain([
-      d3.min(xData, function(d) {
-        return d - 1;
+      d3.min(data, function(d) {
+        return d.Year - 1;
       }),
-      d3.max(xData, function(d) {
-        return d + 1;
+      d3.max(data, function(d) {
+        return d.Year + 1;
       })
     ]);
 
   var xAxis = d3.axisBottom(xScale).tickFormat(d3.format("d"));
 
-  var yData = data.map(function(item) {
-    var parsedTime = item.Time.split(":");
-    var date = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
-    return date;
-  });
-
   var yScale = d3
     .scaleTime()
     .range([0, height])
-    .domain(d3.extent(yData));
+    .domain(
+      d3.extent(data, function(d) {
+        return d.Time;
+      })
+    );
 
   var yAxis = d3.axisLeft(yScale).tickFormat(timeFormat);
 
@@ -75,12 +74,6 @@ d3.json(
     .attr("class", "tooltip")
     .attr("id", "tooltip")
     .style("opacity", 0);
-
-  data.forEach(function(d) {
-    d.Place = +d.Place;
-    var parsedTime = d.Time.split(":");
-    d.Time = new Date(1970, 0, 1, 0, parsedTime[0], parsedTime[1]);
-  });
 
   svg
     .selectAll("circle")

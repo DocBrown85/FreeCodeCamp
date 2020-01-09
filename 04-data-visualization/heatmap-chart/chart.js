@@ -5,7 +5,7 @@ d3.json(dataURL).then(function(data) {
   console.log(data);
 
   var margin = {top: 30, right: 30, bottom: 30, left: 70},
-    width = 450 - margin.left - margin.right,
+    width = 1050 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
   var headings = d3.select("#chart").append("div");
@@ -48,8 +48,43 @@ d3.json(dataURL).then(function(data) {
       return d3.timeFormat("%B")(date);
     });
 
+  // x axis
+  var xScale = d3
+    .scaleBand()
+    .range([0, width])
+    .domain(
+      data.monthlyVariance.map(function(item) {
+        return item.year;
+      })
+    );
+
+  var xAxis = d3
+    .axisBottom(xScale)
+    .tickValues(
+      data.monthlyVariance
+        .map(function(item) {
+          return item.year;
+        })
+        .filter(function(item) {
+          return item % 10 == 0;
+        })
+    )
+    .tickFormat(function(year) {
+      var date = new Date(0);
+      date.setUTCFullYear(year);
+      return d3.timeFormat("%Y")(date);
+    });
+
   svg
     .append("g")
     .attr("id", "y-axis")
+    .attr("class", "y-axis")
     .call(yAxis);
+
+  svg
+    .append("g")
+    .attr("id", "x-axis")
+    .attr("class", "x-axis")
+    .attr("transform", "translate(0" + "," + height + ")")
+    .call(xAxis);
 });

@@ -4,7 +4,7 @@ var dataURL =
 d3.json(dataURL).then(function(data) {
   console.log(data);
 
-  var margin = {top: 30, right: 30, bottom: 30, left: 70},
+  var margin = {top: 30, right: 30, bottom: 50, left: 100},
     width = 1050 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
@@ -87,4 +87,19 @@ d3.json(dataURL).then(function(data) {
     .attr("class", "x-axis")
     .attr("transform", "translate(0" + "," + height + ")")
     .call(xAxis);
+
+  svg
+    .append("text")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height + margin.top + 20)
+    .text("Years");
+
+  svg
+    .append("text")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left + 20)
+    .attr("x", -margin.top + 30)
+    .text("Months");
 });

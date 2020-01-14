@@ -4,6 +4,10 @@ var dataURL =
 d3.json(dataURL).then(function(data) {
   console.log(data);
 
+  data.monthlyVariance.forEach(function(item) {
+    item.month -= 1;
+  });
+
   var margin = {top: 30, right: 30, bottom: 50, left: 100},
     width = 1050 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
@@ -24,6 +28,16 @@ d3.json(dataURL).then(function(data) {
         data.baseTemperature +
         "&#8451;"
     );
+
+  var variance = data.monthlyVariance.map(function(val) {
+    return val.variance;
+  });
+  var minTemp = data.baseTemperature + Math.min.apply(null, variance);
+  var maxTemp = data.baseTemperature + Math.max.apply(null, variance);
+
+  var colorScale = d3
+    .scaleSequential(d3.interpolateInferno)
+    .domain([minTemp, maxTemp]);
 
   var svg = d3
     .select("#chart")
@@ -102,4 +116,76 @@ d3.json(dataURL).then(function(data) {
     .attr("y", -margin.left + 20)
     .attr("x", -margin.top + 30)
     .text("Months");
+
+  // Tooltip
+  var tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .attr("id", "tooltip")
+    .style("opacity", 0);
+
+  var mouseover = function(d) {
+    tooltip.style("opacity", 0.9);
+    tooltip.attr("data-year", d.year);
+    var date = new Date(d.year, d.month);
+    var tootlipContent =
+      "<span class='date'>" +
+      d3.timeFormat("%Y - %B")(date) +
+      "</span>" +
+      "<br />" +
+      "<span class='temperature'>" +
+      d3.format(".1f")(data.baseTemperature + d.variance) +
+      "&#8451;" +
+      "</span>" +
+      "<br />" +
+      "<span class='variance'>" +
+      d3.format("+.1f")(d.variance) +
+      "&#8451;" +
+      "</span>";
+    tooltip.html(tootlipContent);
+    tooltip.style("left", d3.event.pageX + "px");
+    tooltip.style("top", d3.event.pageY - 28 + "px");
+  };
+
+  var mouseleave = function(d) {
+    tooltip.style("opacity", 0);
+  };
+
+  // Heat Map
+
+  svg
+    .append("g")
+    .attr("transform", "translate(" + 0 + "," + 0 + ")")
+    .selectAll("rect")
+    .data(data.monthlyVariance)
+    .enter()
+    .append("rect")
+    .attr("class", "cell")
+    .attr("data-month", function(d) {
+      return d.month;
+    })
+    .attr("data-year", function(d) {
+      return d.year;
+    })
+    .attr("data-temp", function(d) {
+      return data.baseTemperature + d.variance;
+    })
+    .attr("x", function(d, i) {
+      return xScale(d.year);
+    })
+    .attr("y", function(d, i) {
+      return yScale(d.month);
+    })
+    .attr("width", function(d, i) {
+      return xScale.bandwidth(d.year);
+    })
+    .attr("height", function(d, i) {
+      return yScale.bandwidth(d.month);
+    })
+    .style("fill", function(d) {
+      return colorScale(data.baseTemperature + d.variance);
+    })
+    .on("mouseover", mouseover)
+    .on("mouseleave", mouseleave);
 });

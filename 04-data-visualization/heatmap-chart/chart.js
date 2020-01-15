@@ -8,9 +8,9 @@ d3.json(dataURL).then(function(data) {
     item.month -= 1;
   });
 
-  var margin = {top: 30, right: 30, bottom: 50, left: 100},
+  var margin = {top: 10, right: 30, bottom: 120, left: 100},
     width = 1050 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;
+    height = 550 - margin.top - margin.bottom;
 
   var headings = d3.select("#chart").append("div");
   headings
@@ -188,4 +188,51 @@ d3.json(dataURL).then(function(data) {
     })
     .on("mouseover", mouseover)
     .on("mouseleave", mouseleave);
+
+  // Legend
+  var legendKeysCount = 5;
+
+  var legendKeys = (function(min, max, count) {
+    var array = [];
+    var step = (max - min) / count;
+    var base = min;
+    for (var i = 1; i <= count; i++) {
+      array.push(base + i * step);
+    }
+    return array;
+  })(minTemp, maxTemp, legendKeysCount);
+
+  var legendDisplacement = 50;
+  var legendWidth = 250;
+
+  var legendScaleX = d3
+    .scaleBand()
+    .rangeRound([0, legendWidth])
+    .domain(legendKeys);
+
+  var legend = svg
+    .append("g")
+    .attr("id", "legend")
+    .attr("transform", "translate(0," + (height + legendDisplacement) + ")");
+
+  legend
+    .append("g")
+    .attr("id", "legend-x-axis")
+    .attr("transform", "translate(0," + legendScaleX.bandwidth() + ")")
+    .call(d3.axisBottom(legendScaleX).tickFormat(d3.format(".1f")));
+
+  legend
+    .selectAll(".legend-item")
+    .data(legendKeys)
+    .enter()
+    .append("rect")
+    .attr("class", "legend-item")
+    .attr("x", function(d) {
+      return legendScaleX(d);
+    })
+    .attr("width", legendScaleX.bandwidth())
+    .attr("height", legendScaleX.bandwidth())
+    .style("fill", function(d) {
+      return colorScale(d);
+    });
 });

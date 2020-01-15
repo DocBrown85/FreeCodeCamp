@@ -156,6 +156,7 @@ d3.json(dataURL).then(function(data) {
 
   svg
     .append("g")
+    .attr("class", "heat-map")
     .attr("transform", "translate(" + 0 + "," + 0 + ")")
     .selectAll("rect")
     .data(data.monthlyVariance)

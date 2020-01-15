@@ -144,7 +144,7 @@ d3.json(dataURL).then(function(data) {
       "&#8451;" +
       "</span>";
     tooltip.html(tootlipContent);
-    tooltip.style("left", d3.event.pageX + "px");
+    tooltip.style("left", d3.event.pageX + 28 + "px");
     tooltip.style("top", d3.event.pageY - 28 + "px");
   };
 

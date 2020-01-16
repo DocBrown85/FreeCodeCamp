@@ -20,6 +20,16 @@ body {
   text-align: center;
 }
 
+.counties {
+  fill: none;
+}
+
+.states {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
 .tooltip {
   position: absolute;
   padding: 10px;

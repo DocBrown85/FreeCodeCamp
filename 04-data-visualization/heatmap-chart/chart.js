@@ -9,10 +9,13 @@ d3.json(dataURL).then(function(data) {
   });
 
   var margin = {top: 10, right: 30, bottom: 120, left: 100},
-    width = 1050 - margin.left - margin.right,
+    width = 1200 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-  var headings = d3.select("#chart").append("div");
+  var headings = d3
+    .select("#chart")
+    .append("div")
+    .attr("class", "headings");
   headings
     .append("h1")
     .attr("id", "title")
@@ -104,7 +107,7 @@ d3.json(dataURL).then(function(data) {
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-90)")
     .attr("y", -margin.left + 20)
-    .attr("x", -margin.top + 30)
+    .attr("x", -margin.top + 10)
     .text("Months");
 
   // Tooltip

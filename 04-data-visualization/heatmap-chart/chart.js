@@ -63,31 +63,21 @@ d3.json(dataURL).then(function(data) {
     });
 
   // x axis
+  var xScaleDomain = d3.extent(data.monthlyVariance, d => d.year);
+
   var xScale = d3
-    .scaleBand()
-    .range([0, width])
-    .domain(
-      data.monthlyVariance.map(function(item) {
-        return item.year;
-      })
-    );
+    .scaleLinear()
+    .domain(xScaleDomain)
+    .range([0, width]);
+
+  var minYear = xScaleDomain[0];
+  var maxYear = xScaleDomain[1];
+  var xBandWidth = width / (maxYear - minYear);
 
   var xAxis = d3
     .axisBottom(xScale)
-    .tickValues(
-      data.monthlyVariance
-        .map(function(item) {
-          return item.year;
-        })
-        .filter(function(item) {
-          return item % 10 == 0;
-        })
-    )
-    .tickFormat(function(year) {
-      var date = new Date(0);
-      date.setUTCFullYear(year);
-      return d3.timeFormat("%Y")(date);
-    });
+    .ticks(15)
+    .tickFormat(d3.format(""));
 
   svg
     .append("g")
@@ -157,7 +147,6 @@ d3.json(dataURL).then(function(data) {
   svg
     .append("g")
     .attr("class", "heat-map")
-    .attr("transform", "translate(" + 0 + "," + 0 + ")")
     .selectAll("rect")
     .data(data.monthlyVariance)
     .enter()
@@ -178,9 +167,7 @@ d3.json(dataURL).then(function(data) {
     .attr("y", function(d, i) {
       return yScale(d.month);
     })
-    .attr("width", function(d, i) {
-      return xScale.bandwidth(d.year);
-    })
+    .attr("width", xBandWidth)
     .attr("height", function(d, i) {
       return yScale.bandwidth(d.month);
     })

@@ -20,6 +20,11 @@ body {
   text-align: center;
 }
 
+.tile-text {
+  font-size: 10px;
+  text-align: center;
+}
+
 .tooltip {
   position: absolute;
   padding: 10px;

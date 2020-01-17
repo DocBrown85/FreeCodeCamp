@@ -14,9 +14,8 @@ headings
   .attr("id", "description")
   .html("Top 100 Most Sold Video Games Grouped by Platform");
 
-var margin = {top: 10, right: 30, bottom: 120, left: 10},
-  width = 1600 - margin.left - margin.right,
-  height = 900 - margin.top - margin.bottom;
+var width = 960;
+var height = 570;
 
 var fader = function(color) {
   return d3.interpolateRgb(color, "#fff")(0.2);
@@ -27,16 +26,12 @@ var format = d3.format(",d");
 var svg = d3
   .select("#chart")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("width", width)
+  .attr("height", height);
 
 var treemap = d3
   .treemap()
-  .tile(d3.treemapResquarify)
   .size([width, height])
-  .round(true)
   .paddingInner(1);
 
 var tooltip = d3

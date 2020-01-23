@@ -25,8 +25,14 @@ app.get("/api/hello", function(req, res) {
 });
 
 app.get("/api/timestamp/:date_string?", function(req, res) {
-  var response = dateService.getDate(req.params.date_string);
-  res.json(response);
+  dateService.getDate(req.params.date_string).then(
+    function(date) {
+      res.json(date);
+    },
+    function(error) {
+      res.json(error);
+    }
+  );
 });
 
 // listen for requests :)

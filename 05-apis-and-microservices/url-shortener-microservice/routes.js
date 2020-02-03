@@ -1,7 +1,8 @@
 const express = require("express");
 const routes = express.Router();
 
-const URLShortenerService = require(__dirname + "/url-shortener-microservice");
+const URLShortenerService = require(__dirname +
+  "/lib/url-shortener-microservice.js");
 
 routes.use("/public", express.static(process.cwd() + "/public"));
 
@@ -15,6 +16,7 @@ routes.get("/api/hello", function(req, res) {
 
 routes.post("/api/shorturl/new", (req, res) => {
   const originalURL = req.body.url;
+
   URLShortenerService.getShortenedURL(originalURL).then(
     data => {
       res.json(data);

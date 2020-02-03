@@ -46,10 +46,21 @@ const addURLLookup = (originalURL, shortenedURL) => {
   });
 };
 
+const getURLLookup = shortenedURL => {
+  return new Promise((resolve, reject) => {
+    URLLookup.findOne({short_url: shortenedURL}, (err, lookupData) => {
+      if (err) reject(err);
+      const cleanLookupData = removeMongooseFields(lookupData.toObject());
+      resolve(cleanLookupData);
+    });
+  });
+};
+
 const removeMongooseFields = object => {
   return _.omit(object, ["_id", "__v"]);
 };
 
 module.exports = {
-  addURLLookup: addURLLookup
+  addURLLookup: addURLLookup,
+  getURLLookup: getURLLookup
 };

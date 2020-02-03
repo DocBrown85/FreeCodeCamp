@@ -5,7 +5,7 @@ const logger = require(__dirname + "/log.js");
 
 const URLLookupDataSource = require(__dirname + "/url-lookup-datasource.js");
 
-const getShortenedURL = originalURL => {
+const addURLLookup = originalURL => {
   return new Promise((resolve, reject) => {
     isValidURL(originalURL)
       .then(function(url) {
@@ -24,7 +24,7 @@ const getShortenedURL = originalURL => {
   });
 };
 
-const visitShortenedURL = shotenedURL => {
+const getURLLookup = shotenedURL => {
   return new Promise((resolve, reject) => {});
 };
 
@@ -58,6 +58,6 @@ const generateShortenedURL = () => {
 };
 
 module.exports = {
-  getShortenedURL: getShortenedURL,
-  visitShortenedURL: visitShortenedURL
+  addURLLookup: addURLLookup,
+  getURLLookup: getURLLookup
 };

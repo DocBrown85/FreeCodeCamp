@@ -17,7 +17,7 @@ routes.get("/api/hello", function(req, res) {
 routes.post("/api/shorturl/new", (req, res) => {
   const originalURL = req.body.url;
 
-  URLShortenerService.getShortenedURL(originalURL).then(
+  URLShortenerService.addURLLookup(originalURL).then(
     data => {
       res.json(data);
     },

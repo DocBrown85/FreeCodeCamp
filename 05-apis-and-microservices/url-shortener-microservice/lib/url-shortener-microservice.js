@@ -1,22 +1,26 @@
+const dns = require("dns");
+const url = require("url-parse");
+
 const logger = require(__dirname + "/log.js");
 
 const URLLookupDataSource = require(__dirname + "/url-lookup-datasource.js");
 
 const getShortenedURL = originalURL => {
   return new Promise((resolve, reject) => {
-    if (!isValidURL(originalURL)) {
-      reject({error: "invalid url"});
-    }
-
-    const shortenedURL = generateShortenedURL();
-    URLLookupDataSource.addURLLookup(originalURL, shortenedURL).then(
-      data => {
+    isValidURL(originalURL)
+      .then(function(url) {
+        const shortenedURL = generateShortenedURL();
+        return shortenedURL;
+      })
+      .then(function(shortenedURL) {
+        return URLLookupDataSource.addURLLookup(originalURL, shortenedURL);
+      })
+      .then(data => {
         resolve(data);
-      },
-      error => {
+      })
+      .catch(error => {
         reject(error);
-      }
-    );
+      });
   });
 };
 
@@ -24,8 +28,26 @@ const visitShortenedURL = shotenedURL => {
   return new Promise((resolve, reject) => {});
 };
 
-const isValidURL = url => {
-  return true;
+const isValidURL = urlToCheck => {
+  return new Promise((resolve, reject) => {
+    const urlComponents = url(urlToCheck, true);
+    const hostname = urlComponents.hostname;
+    if (!hostname) {
+      reject({error: "invalid URL"});
+      return;
+    }
+
+    dns.lookup(hostname, function(err, addresses, family) {
+      if (err) {
+        logger.error(err);
+        reject({error: "invalid URL"});
+        return;
+      }
+      logger.info("resolved hostname " + hostname + ":");
+      logger.info(addresses);
+      resolve(url);
+    });
+  });
 };
 
 const generateShortenedURL = () => {

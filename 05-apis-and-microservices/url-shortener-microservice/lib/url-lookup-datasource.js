@@ -38,6 +38,7 @@ const addURLLookup = (originalURL, shortenedURL) => {
     urlLookup.save((err, lookupData) => {
       if (err) {
         reject({error: err});
+        return;
       }
       const cleanLookupData = removeMongooseFields(lookupData.toObject());
       resolve(cleanLookupData);

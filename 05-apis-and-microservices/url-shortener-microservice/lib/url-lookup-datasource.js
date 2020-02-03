@@ -51,7 +51,7 @@ const getURLLookup = shortenedURL => {
     URLLookup.findOne({short_url: shortenedURL}, (err, lookupData) => {
       if (err) reject(err);
       const cleanLookupData = removeMongooseFields(lookupData.toObject());
-      resolve(cleanLookupData);
+      resolve(cleanLookupData.original_url);
     });
   });
 };

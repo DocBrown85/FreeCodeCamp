@@ -27,4 +27,17 @@ routes.post("/api/shorturl/new", (req, res) => {
   );
 });
 
+routes.get("/api/shorturl/:shortenedURL", (req, res) => {
+  const shortenedURL = req.params.shortenedURL;
+
+  URLShortenerService.getURLLookup(shortenedURL).then(
+    originalURL => {
+      res.redirect(originalURL);
+    },
+    error => {
+      res.json(error);
+    }
+  );
+});
+
 module.exports = routes;

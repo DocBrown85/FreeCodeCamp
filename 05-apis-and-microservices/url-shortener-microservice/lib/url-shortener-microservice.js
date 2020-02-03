@@ -24,8 +24,16 @@ const addURLLookup = originalURL => {
   });
 };
 
-const getURLLookup = shotenedURL => {
-  return new Promise((resolve, reject) => {});
+const getURLLookup = shortenedURL => {
+  return new Promise((resolve, reject) => {
+    URLLookupDataSource.getURLLookup(shortenedURL)
+      .then(originalURL => {
+        resolve(originalURL);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 };
 
 const isValidURL = urlToCheck => {

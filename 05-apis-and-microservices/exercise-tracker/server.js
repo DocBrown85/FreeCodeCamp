@@ -4,17 +4,19 @@ const bodyParser = require("body-parser");
 
 const cors = require("cors");
 
-var routes = require(__dirname + "/routes");
+var routes = require(__dirname + "/routes.js");
 
 app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+/*
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: "not found"});
 });
+*/
 
 // Error Handling middleware
 app.use((err, req, res, next) => {

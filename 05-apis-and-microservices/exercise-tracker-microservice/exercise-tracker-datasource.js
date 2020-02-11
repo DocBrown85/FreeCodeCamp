@@ -74,10 +74,23 @@ const addUser = username => {
   });
 };
 
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
+    User.find({}, (err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      resolve(data);
+    });
+  });
+};
+
 const removeMongooseFields = object => {
   return _.omit(object, ["__v"]);
 };
 
 module.exports = {
-  addUser: addUser
+  addUser: addUser,
+  getUsers: getUsers
 };

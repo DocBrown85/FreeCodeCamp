@@ -36,7 +36,13 @@ routes.post(
 );
 
 routes.get("/api/exercise/users", (req, res) => {
-  res.status(501).send();
+  ExerciseTrackerMicroservice.getUsers()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(error => {
+      res.send(error);
+    });
 });
 
 routes.post("/api/exercise/add", (req, res) => {

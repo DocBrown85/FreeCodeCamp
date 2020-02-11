@@ -13,6 +13,19 @@ const addUser = username => {
   });
 };
 
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
+    ExerciseTrackerDataSource.getUsers()
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
-  addUser: addUser
+  addUser: addUser,
+  getUsers: getUsers
 };

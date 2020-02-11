@@ -1,5 +1,7 @@
 const express = require("express");
 const routes = express.Router();
+const ExerciseTrackerMicroservice = require(__dirname +
+  "/exercise-tracker-microservice.js");
 
 routes.use(express.static("public"));
 routes.get("/", (req, res) => {
@@ -8,14 +10,13 @@ routes.get("/", (req, res) => {
 
 routes.post("/api/exercise/new-user", (req, res) => {
   const username = req.body.username;
-
-  /*
-  response = {
-    username: "name",
-    _id: "id",
-  };
-  */
-  res.status(501).send();
+  ExerciseTrackerMicroservice.addUser(username)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(error => {
+      res.send(error);
+    });
 });
 
 routes.get("/api/exercise/users", (req, res) => {

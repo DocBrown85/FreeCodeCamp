@@ -68,8 +68,7 @@ const addUser = username => {
         reject({error: err});
         return;
       }
-      const cleanData = removeMongooseFields(data.toObject());
-      resolve(cleanData);
+      resolve(data);
     });
   });
 };
@@ -84,10 +83,6 @@ const getUsers = () => {
       resolve(data);
     });
   });
-};
-
-const removeMongooseFields = object => {
-  return _.omit(object, ["__v"]);
 };
 
 module.exports = {

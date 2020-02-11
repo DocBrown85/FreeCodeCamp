@@ -1,5 +1,8 @@
 const express = require("express");
 const routes = express.Router();
+
+const {check, validationResult} = require("express-validator");
+
 const ExerciseTrackerMicroservice = require(__dirname +
   "/exercise-tracker-microservice.js");
 
@@ -8,16 +11,29 @@ routes.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-routes.post("/api/exercise/new-user", (req, res) => {
-  const username = req.body.username;
-  ExerciseTrackerMicroservice.addUser(username)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(error => {
-      res.send(error);
-    });
-});
+routes.post(
+  "/api/exercise/new-user",
+  [
+    check("username").exists(),
+    check("username").notEmpty(),
+    check("username").isString()
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const username = req.body.username;
+    ExerciseTrackerMicroservice.addUser(username)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(error => {
+        res.send(error);
+      });
+  }
+);
 
 routes.get("/api/exercise/users", (req, res) => {
   res.status(501).send();

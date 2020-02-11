@@ -11,6 +11,7 @@
     "cors": "^2.8.1",
     "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.2",
+    "express-validator": "^6.4.0",
     "lodash": "^4.17.15",
     "mongodb": "^3.5.1",
     "mongoose": "^5.8.9",

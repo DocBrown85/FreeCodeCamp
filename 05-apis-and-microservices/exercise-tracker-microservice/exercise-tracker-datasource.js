@@ -73,6 +73,37 @@ const addUser = username => {
   });
 };
 
+const addUserIfNotExists = username => {
+  return new Promise((resolve, reject) => {
+    userExists(username)
+      .then(username => {
+        return addUser(username);
+      })
+      .then(user => {
+        resolve(user);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const userExists = username => {
+  return new Promise((resolve, reject) => {
+    User.find({username: username}, (err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      if (data.length != 0) {
+        reject({error: "username already exists"});
+        return;
+      }
+      resolve(username);
+    });
+  });
+};
+
 const getUsers = () => {
   return new Promise((resolve, reject) => {
     User.find({}, (err, data) => {
@@ -86,6 +117,7 @@ const getUsers = () => {
 };
 
 module.exports = {
-  addUser: addUser,
+  addUser: addUserIfNotExists,
+  userExists: userExists,
   getUsers: getUsers
 };

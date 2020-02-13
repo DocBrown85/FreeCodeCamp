@@ -11,6 +11,12 @@ routes.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
+const moment = require("moment");
+function isValidDate(value) {
+  let m = moment(value);
+  return m.isValid();
+}
+
 routes.post(
   "/api/exercise/new-user",
   [
@@ -60,7 +66,10 @@ routes.post(
       .exists()
       .notEmpty()
       .isNumeric(),
-    check("date").optional()
+    check("date")
+      .optional()
+      .custom(isValidDate)
+      .withMessage("invalid date")
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -101,8 +110,14 @@ routes.get(
       .exists()
       .notEmpty()
       .isString(),
-    check("from").optional(),
-    check("to").optional(),
+    check("from")
+      .optional()
+      .custom(isValidDate)
+      .withMessage("invalid date"),
+    check("to")
+      .optional()
+      .custom(isValidDate)
+      .withMessage("invalid date"),
     check("limit")
       .optional()
       .isNumeric()

@@ -9,18 +9,22 @@ const ExerciseLogSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true
     },
-    description: {
-      type: String,
-      required: true
-    },
-    duration: {
-      type: Number,
-      required: true
-    },
-    date: {
-      type: Date,
-      default: Date.now
-    }
+    log: [
+      {
+        description: {
+          type: String,
+          required: true
+        },
+        duration: {
+          type: Number,
+          required: true
+        },
+        date: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    ]
   },
   {
     timestamps: true
@@ -47,7 +51,8 @@ mongoose.connect(
   process.env.DATABASE_URI,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   },
   function(err) {
     if (err) {
@@ -75,12 +80,17 @@ const addUser = username => {
 
 const addUserIfNotExists = username => {
   return new Promise((resolve, reject) => {
-    userExists(username)
+    let newUser = null;
+    usernameAvailable(username)
       .then(username => {
         return addUser(username);
       })
       .then(user => {
-        resolve(user);
+        newUser = user;
+        return initializeExerciseLog(user._id);
+      })
+      .then(newUserExerciseLog => {
+        resolve(newUser);
       })
       .catch(error => {
         reject(error);
@@ -88,7 +98,7 @@ const addUserIfNotExists = username => {
   });
 };
 
-const userExists = username => {
+const usernameAvailable = username => {
   return new Promise((resolve, reject) => {
     User.find({username: username}, (err, data) => {
       if (err) {
@@ -100,6 +110,22 @@ const userExists = username => {
         return;
       }
       resolve(username);
+    });
+  });
+};
+
+const getUser = userId => {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (err, user) => {
+      if (err) {
+        reject({error: "unknown user"});
+        return;
+      }
+      if (user == null) {
+        reject({error: "unknown user"});
+        return;
+      }
+      resolve(user);
     });
   });
 };
@@ -116,8 +142,66 @@ const getUsers = () => {
   });
 };
 
+const initializeExerciseLog = userId => {
+  return new Promise((resolve, reject) => {
+    const exerciseLog = new ExerciseLog({
+      userId: userId,
+      log: []
+    });
+
+    exerciseLog.save((err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      resolve(data);
+    });
+  });
+};
+
+const addExerciseLog = (userId, description, duration, date) => {
+  return new Promise((resolve, reject) => {
+    ExerciseLog.findOneAndUpdate(
+      {userId: userId},
+      {
+        $push: {
+          log: {
+            description: description,
+            duration: duration,
+            date: date
+          }
+        }
+      },
+      {
+        new: true
+      },
+      (err, data) => {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        resolve(data);
+      }
+    );
+  });
+};
+
+const getExerciseLog = userId => {
+  return new Promise((resolve, reject) => {
+    ExerciseLog.find({_id: userId}, (err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      resolve(data);
+    });
+  });
+};
+
 module.exports = {
   addUser: addUserIfNotExists,
-  userExists: userExists,
-  getUsers: getUsers
+  getUser: getUser,
+  getUsers: getUsers,
+  addExerciseLog: addExerciseLog,
+  getExerciseLog: getExerciseLog
 };

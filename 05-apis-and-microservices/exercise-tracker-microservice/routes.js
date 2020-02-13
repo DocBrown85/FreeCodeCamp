@@ -45,23 +45,47 @@ routes.get("/api/exercise/users", (req, res) => {
     });
 });
 
-routes.post("/api/exercise/add", (req, res) => {
-  const userId = req.body.userId;
-  const description = req.body.description;
-  const duration = req.body.duration;
-  const date = req.body.date;
+routes.post(
+  "/api/exercise/add",
+  [
+    check("username")
+      .exists()
+      .notEmpty()
+      .isString(),
+    check("description")
+      .exists()
+      .notEmpty()
+      .isString(),
+    check("duration")
+      .exists()
+      .notEmpty()
+      .isNumeric(),
+    check("_id")
+      .exists()
+      .notEmpty()
+      .isString(),
+    check("date").optional()
+  ],
+  (req, res) => {
+    const userId = req.body.userId;
+    const description = req.body.description;
+    const duration = req.body.duration;
+    const date = req.body.date;
 
-  /*
-  response = {
-    username: "name",
-    description: "desc",
-    duration: 42,
-    _id: "id",
-    date: "1970/01/01"
-  };
-  */
-  res.status(501).send();
-});
+    ExerciseTrackerMicroservice.addExerciseLog(
+      userId,
+      description,
+      duration,
+      date
+    )
+      .then(data => {
+        res.send(data);
+      })
+      .catch(error => {
+        res.send(error);
+      });
+  }
+);
 
 /*
  * GET /api/exercise/log?{userId}[&from][&to][&limit]

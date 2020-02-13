@@ -25,7 +25,41 @@ const getUsers = () => {
   });
 };
 
+const addExerciseLog = (userId, description, duration, date) => {
+  return new Promise((resolve, reject) => {
+    ExerciseTrackerDataSource.getUser(userId)
+      .then(user => {
+        return ExerciseTrackerDataSource.addExerciseLog(
+          userId,
+          description,
+          duration,
+          date
+        );
+      })
+      .then(userExerciseLog => {
+        resolve(userExerciseLog);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const getExerciseLog = userId => {
+  return new Promise((resolve, reject) => {
+    ExerciseTrackerDataSource.getExerciseLog(userId)
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   addUser: addUser,
-  getUsers: getUsers
+  getUsers: getUsers,
+  addExerciseLog: addExerciseLog,
+  getExerciseLog: getExerciseLog
 };

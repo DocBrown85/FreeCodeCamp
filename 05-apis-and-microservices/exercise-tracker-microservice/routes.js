@@ -48,7 +48,7 @@ routes.get("/api/exercise/users", (req, res) => {
 routes.post(
   "/api/exercise/add",
   [
-    check("username")
+    check("userId")
       .exists()
       .notEmpty()
       .isString(),
@@ -60,13 +60,14 @@ routes.post(
       .exists()
       .notEmpty()
       .isNumeric(),
-    check("_id")
-      .exists()
-      .notEmpty()
-      .isString(),
     check("date").optional()
   ],
   (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
     const userId = req.body.userId;
     const description = req.body.description;
     const duration = req.body.duration;
@@ -93,8 +94,34 @@ routes.post(
  * { } = required, [ ] = optional
  * from, to = dates (yyyy-mm-dd); limit = number
  */
-routes.get("/api/exercise/log", (req, res) => {
-  res.status(501).send();
-});
+routes.get(
+  "/api/exercise/log",
+  [
+    check("userId")
+      .exists()
+      .notEmpty()
+      .isString(),
+    check("from").optional(),
+    check("to").optional(),
+    check("limit")
+      .optional()
+      .isNumeric()
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const userId = req.query.userId;
+    ExerciseTrackerMicroservice.getExerciseLog(userId)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(error => {
+        res.send(error);
+      });
+  }
+);
 
 module.exports = routes;

@@ -188,7 +188,7 @@ const addExerciseLog = (userId, description, duration, date) => {
 
 const getExerciseLog = userId => {
   return new Promise((resolve, reject) => {
-    ExerciseLog.find({_id: userId}, (err, data) => {
+    ExerciseLog.find({userId: userId}, (err, data) => {
       if (err) {
         reject({error: err});
         return;

@@ -27,8 +27,17 @@ const getUsers = () => {
 
 const addExerciseLog = (userId, description, duration, date) => {
   return new Promise((resolve, reject) => {
+    let result = {
+      _id: null,
+      username: null,
+      description: null,
+      duration: null,
+      date: null
+    };
     ExerciseTrackerDataSource.getUser(userId)
       .then(user => {
+        result._id = user._id;
+        result.username = user.username;
         return ExerciseTrackerDataSource.addExerciseLog(
           userId,
           description,
@@ -37,7 +46,10 @@ const addExerciseLog = (userId, description, duration, date) => {
         );
       })
       .then(userExerciseLog => {
-        resolve(userExerciseLog);
+        result.description = description;
+        result.duration = duration;
+        result.date = date;
+        resolve(result);
       })
       .catch(error => {
         reject(error);

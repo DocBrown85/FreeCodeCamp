@@ -9,22 +9,18 @@ const ExerciseLogSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true
     },
-    log: [
-      {
-        description: {
-          type: String,
-          required: true
-        },
-        duration: {
-          type: Number,
-          required: true
-        },
-        date: {
-          type: Date,
-          default: Date.now
-        }
-      }
-    ]
+    description: {
+      type: String,
+      required: true
+    },
+    duration: {
+      type: Number,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
   },
   {
     timestamps: true
@@ -80,17 +76,12 @@ const addUser = username => {
 
 const addUserIfNotExists = username => {
   return new Promise((resolve, reject) => {
-    let newUser = null;
     usernameAvailable(username)
       .then(username => {
         return addUser(username);
       })
       .then(user => {
-        newUser = user;
-        return initializeExerciseLog(user._id);
-      })
-      .then(newUserExerciseLog => {
-        resolve(newUser);
+        resolve(user);
       })
       .catch(error => {
         reject(error);
@@ -142,11 +133,13 @@ const getUsers = () => {
   });
 };
 
-const initializeExerciseLog = userId => {
+const addExerciseLog = (userId, description, duration, date) => {
   return new Promise((resolve, reject) => {
     const exerciseLog = new ExerciseLog({
       userId: userId,
-      log: []
+      description: description,
+      duration: duration,
+      date: date
     });
 
     exerciseLog.save((err, data) => {
@@ -159,44 +152,31 @@ const initializeExerciseLog = userId => {
   });
 };
 
-const addExerciseLog = (userId, description, duration, date) => {
-  return new Promise((resolve, reject) => {
-    ExerciseLog.findOneAndUpdate(
-      {userId: userId},
-      {
-        $push: {
-          log: {
-            description: description,
-            duration: duration,
-            date: date
-          }
-        }
-      },
-      {
-        new: true
-      },
-      (err, data) => {
-        if (err) {
-          reject({error: err});
-          return;
-        }
-        resolve(data);
-      }
-    );
-  });
-};
-
 const getExerciseLog = (userId, from = null, to = null, limit = null) => {
   return new Promise((resolve, reject) => {
-    let filter = {userId: userId};
-    if (limit) {
-    }
+    let userFilter = {userId: userId};
+
+    let dateFilter = {};
     if (from) {
+      const fromDate = new Date(from);
+      dateFilter = Object.assign(dateFilter, {$gte: fromDate});
     }
     if (to) {
+      const toDate = new Date(to);
+      dateFilter = Object.assign(dateFilter, {$lte: toDate});
     }
 
-    let query = ExerciseLog.find(filter, (err, data) => {
+    let filter = Object.assign({}, userFilter);
+    if (!_.isEmpty(dateFilter)) {
+      filter.date = dateFilter;
+    }
+
+    let query = ExerciseLog.find(filter);
+    if (limit) {
+      query.limit(limit);
+    }
+
+    query.exec((err, data) => {
       if (err) {
         reject({error: err});
         return;

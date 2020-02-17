@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 const ExerciseTrackerDataSource = require(__dirname +
   "/exercise-tracker-datasource.js");
 
@@ -46,11 +48,9 @@ const addExerciseLog = (userId, description, duration, date) => {
         );
       })
       .then(userExerciseLog => {
-        const currentExerciseLog =
-          userExerciseLog.log[userExerciseLog.log.length - 1];
-        result.description = currentExerciseLog.description;
-        result.duration = currentExerciseLog.duration;
-        result.date = currentExerciseLog.date;
+        result.description = userExerciseLog.description;
+        result.duration = userExerciseLog.duration;
+        result.date = userExerciseLog.date;
         resolve(result);
       })
       .catch(error => {
@@ -61,9 +61,27 @@ const addExerciseLog = (userId, description, duration, date) => {
 
 const getExerciseLog = (userId, from = null, to = null, limit = null) => {
   return new Promise((resolve, reject) => {
-    ExerciseTrackerDataSource.getExerciseLog(userId, from, to, limit)
-      .then(data => {
-        resolve(data);
+    let result = {
+      _id: null,
+      username: null,
+      count: null,
+      log: null
+    };
+    ExerciseTrackerDataSource.getUser(userId)
+      .then(user => {
+        result._id = user._id;
+        result.username = user.username;
+        return ExerciseTrackerDataSource.getExerciseLog(
+          userId,
+          from,
+          to,
+          limit
+        );
+      })
+      .then(userExerciseLog => {
+        result.count = userExerciseLog.length;
+        result.log = userExerciseLog;
+        resolve(result);
       })
       .catch(error => {
         reject(error);

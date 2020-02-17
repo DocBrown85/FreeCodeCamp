@@ -129,7 +129,11 @@ routes.get(
     }
 
     const userId = req.query.userId;
-    ExerciseTrackerMicroservice.getExerciseLog(userId)
+    const from = req.query.from;
+    const to = req.query.to;
+    const limit = parseInt(req.query.limit, 10);
+
+    ExerciseTrackerMicroservice.getExerciseLog(userId, from, to, limit)
       .then(data => {
         res.send(data);
       })

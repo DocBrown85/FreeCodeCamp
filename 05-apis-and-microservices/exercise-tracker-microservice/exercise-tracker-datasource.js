@@ -186,9 +186,17 @@ const addExerciseLog = (userId, description, duration, date) => {
   });
 };
 
-const getExerciseLog = userId => {
+const getExerciseLog = (userId, from = null, to = null, limit = null) => {
   return new Promise((resolve, reject) => {
-    ExerciseLog.find({userId: userId}, (err, data) => {
+    let filter = {userId: userId};
+    if (limit) {
+    }
+    if (from) {
+    }
+    if (to) {
+    }
+
+    let query = ExerciseLog.find(filter, (err, data) => {
       if (err) {
         reject({error: err});
         return;

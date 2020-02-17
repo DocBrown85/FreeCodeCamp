@@ -59,9 +59,9 @@ const addExerciseLog = (userId, description, duration, date) => {
   });
 };
 
-const getExerciseLog = userId => {
+const getExerciseLog = (userId, from = null, to = null, limit = null) => {
   return new Promise((resolve, reject) => {
-    ExerciseTrackerDataSource.getExerciseLog(userId)
+    ExerciseTrackerDataSource.getExerciseLog(userId, from, to, limit)
       .then(data => {
         resolve(data);
       })

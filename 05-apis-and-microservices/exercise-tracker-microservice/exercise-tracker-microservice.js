@@ -46,9 +46,11 @@ const addExerciseLog = (userId, description, duration, date) => {
         );
       })
       .then(userExerciseLog => {
-        result.description = description;
-        result.duration = duration;
-        result.date = date;
+        const currentExerciseLog =
+          userExerciseLog.log[userExerciseLog.log.length - 1];
+        result.description = currentExerciseLog.description;
+        result.duration = currentExerciseLog.duration;
+        result.date = currentExerciseLog.date;
         resolve(result);
       })
       .catch(error => {

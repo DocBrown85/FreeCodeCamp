@@ -11,6 +11,7 @@
 		"cors": "^2.8.1",
 		"dotenv": "^8.2.0",
 		"express": "^5.0.0-alpha.2",
+		"express-validator": "^6.4.0",
 		"multer": "^1.4.2"
 	},
 	"engines": {

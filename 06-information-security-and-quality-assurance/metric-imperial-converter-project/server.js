@@ -4,6 +4,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var expect = require("chai").expect;
 var cors = require("cors");
+var helmet = require("helmet");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -12,6 +13,9 @@ var fccTestingRoutes = require("./routes/fcctesting.js");
 var runner = require("./test-runner");
 
 var app = express();
+
+app.use(helmet.noSniff());
+app.use(helmet.xssFilter());
 
 app.use("/public", express.static(process.cwd() + "/public"));
 

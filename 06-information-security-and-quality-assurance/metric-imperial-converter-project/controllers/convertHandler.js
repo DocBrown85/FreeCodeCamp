@@ -53,9 +53,15 @@ function ConvertHandler() {
   };
 
   this.spellOutUnit = function(unit) {
-    var result;
-
-    return result;
+    const outUnitSpellMappings = {
+      km: "kilometers",
+      mi: "miles",
+      l: "liters",
+      gal: "gallons",
+      kg: "kilograms",
+      lbs: "pounds"
+    };
+    return outUnitSpellMappings[unit];
   };
 
   this.convert = function(initNum, initUnit) {

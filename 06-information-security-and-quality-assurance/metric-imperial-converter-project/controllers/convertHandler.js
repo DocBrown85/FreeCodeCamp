@@ -41,9 +41,15 @@ function ConvertHandler() {
   };
 
   this.getReturnUnit = function(initUnit) {
-    var result;
-
-    return result;
+    const validUnitMappings = {
+      gal: "l",
+      l: "gal",
+      lbs: "kg",
+      kg: "lbs",
+      mi: "km",
+      km: "mi"
+    };
+    return validUnitMappings[initUnit.toLowerCase()];
   };
 
   this.spellOutUnit = function(unit) {

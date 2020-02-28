@@ -21,27 +21,32 @@ suite("Unit Tests", function() {
     });
 
     test("Decimal Input", function(done) {
-      assert.fail();
+      var input = "123.456Kg";
+      assert.equal(convertHandler.getNum(input), 123.456);
       done();
     });
 
     test("Fractional Input", function(done) {
-      assert.fail();
+      var input = "2/3Kg";
+      assert.equal(convertHandler.getNum(input), 0.66667);
       done();
     });
 
     test("Fractional Input w/ Decimal", function(done) {
-      assert.fail();
+      var input = "123.456/456.123lbs";
+      assert.equal(convertHandler.getNum(input), 0.27066);
       done();
     });
 
-    test("Invalid Input (double fraction)", function(done) {
-      assert.fail();
+    test("Double Fraction Input)", function(done) {
+      var input = "42/42/42lbs";
+      assert.equal(convertHandler.getNum(input), 0.02381);
       done();
     });
 
     test("No Numerical Input", function(done) {
-      assert.fail();
+      assert.equal(convertHandler.getNum("kg"), 1);
+      assert.equal(convertHandler.getNum("lbs"), 1);
       done();
     });
   });

@@ -11,22 +11,15 @@ function ConvertHandler() {
   this.getNum = function(input) {
     if (!input) return "invalid number and unit";
 
-    /*
-    const numReg = /[\d./]+/g;
-    // Input has no number, only a unit
-    if (input.match(numReg) === null) return 1;
+    const numberRegex = /^((\d+\.\d+|\d+)(\/(\d+\.\d+|\d+))*)/;
+    const match = input.match(numberRegex);
+    if (match === null) {
+      // input has no number, only a unit
+      return 1;
+    }
+    const number = match[1];
 
-    // Strip input of valid/invalid units
-    const unitRegex = /([^\d]+$)/;
-    const numOrEq = input.replace(unitRegex, "");
-    // console.log(input);
-
-    const letterRegex = /[a-zA-Z]+/;
-    // Input is something like '1a3lbs' or 'a4gal'
-    if (numOrEq.match(letterRegex)) return "invalid number";
-
-    const result = math.evaluate(numOrEq);
-    */
+    const result = math.evaluate(number);
 
     return result.toFixed(5);
   };

@@ -11,13 +11,18 @@ function ConvertHandler() {
   this.getNum = function(input) {
     if (!input) return "invalid number and unit";
 
-    const numberRegex = /^((\d+\.\d+|\d+)(\/(\d+\.\d+|\d+))*)/;
-    const match = input.match(numberRegex);
-    if (match === null) {
-      // input has no number, only a unit
+    const unitOnlyInputRegex = /^[a-zA-Z]+$/;
+    let match = input.match(unitOnlyInputRegex);
+    if (match) {
       return 1;
     }
-    const number = match[1];
+
+    const numberRegex = /^(\d+\.\d+|\d+)(\/(\d+\.\d+|\d+))*/;
+    match = input.match(numberRegex);
+    if (match === null) {
+      return "invalid number";
+    }
+    const number = match[0];
 
     const result = math.evaluate(number);
 
@@ -25,6 +30,9 @@ function ConvertHandler() {
   };
 
   this.getUnit = function(input) {
+    if (!input) {
+      return "invalid number and unit";
+    }
     const supportedUnits = ["gal", "l", "mi", "km", "lbs", "kg", "L"];
 
     let unitCandidateRegex = /[a-zA-Z]+$/;
@@ -93,8 +101,9 @@ function ConvertHandler() {
   };
 
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    var result;
-
+    const result = `${initNum} ${this.spellOutUnit(
+      initUnit
+    )} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
     return result;
   };
 }

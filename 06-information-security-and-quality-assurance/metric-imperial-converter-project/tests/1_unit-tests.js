@@ -68,13 +68,14 @@ suite("Unit Tests", function() {
         "KG"
       ];
       input.forEach(function(ele) {
-        assert.fail();
+        assert.equal(convertHandler.getUnit(ele), ele.toLowerCase());
       });
       done();
     });
 
     test("Unknown Unit Input", function(done) {
-      assert.fail();
+      assert.equal(convertHandler.getUnit("qwertkkmi"), "invalid unit");
+      assert.equal(convertHandler.getUnit("asdfglbs"), "invalid unit");
       done();
     });
   });

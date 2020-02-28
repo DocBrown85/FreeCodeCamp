@@ -25,9 +25,19 @@ function ConvertHandler() {
   };
 
   this.getUnit = function(input) {
-    var result;
+    const supportedUnits = ["gal", "l", "mi", "km", "lbs", "kg", "L"];
 
-    return result;
+    let unitCandidateRegex = /[a-zA-Z]+$/;
+    let match = input.match(unitCandidateRegex);
+    if (!match) {
+      return "no unit";
+    }
+    let unit = match[0].toLowerCase();
+
+    if (supportedUnits.indexOf(unit) === -1) {
+      return "invalid unit";
+    }
+    return unit;
   };
 
   this.getReturnUnit = function(initUnit) {

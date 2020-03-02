@@ -71,14 +71,14 @@ module.exports = {
     });
   },
 
-  addIssue: (
-    project,
-    issue_title,
-    issue_text,
-    created_by,
-    assigned_to = null,
-    status_text = null
-  ) => {
+  addIssue: ({
+    project: project,
+    issue_title: issue_title,
+    issue_text: issue_text,
+    created_by: created_by,
+    assigned_to: assigned_to,
+    status_text: status_text
+  }) => {
     return new Promise((resolve, reject) => {
       const issue = new Issue({
         project: project,

@@ -110,23 +110,18 @@ module.exports = function(app) {
           .isMongoId(),
         check("issue_title")
           .optional()
-          .notEmpty()
           .isString(),
         check("issue_text")
           .optional()
-          .notEmpty()
           .isString(),
         check("created_by")
           .optional()
-          .notEmpty()
           .isString(),
         check("assigned_to")
           .optional()
-          .notEmpty()
           .isString(),
         check("open")
           .optional()
-          .notEmpty()
           .isBoolean()
       ],
       function(req, res) {
@@ -135,23 +130,24 @@ module.exports = function(app) {
           return res.status(422).json({errors: errors.array()});
         }
 
-        const project = req.params.project;
         const id = req.body._id;
         const issue_title = req.body.issue_title;
         const issue_text = req.body.issue_text;
         const created_by = req.body.created_by;
         const assigned_to = req.body.assigned_to;
         const status_text = req.body.status_text;
+        const open = req.body.open;
 
-        IssueTrackerService.updateIssue(
-          project,
-          id,
-          issue_title,
-          issue_text,
-          created_by,
-          assigned_to,
-          status_text
-        )
+        const updates = {
+          issue_title: issue_title,
+          issue_text: issue_text,
+          created_by: created_by,
+          assigned_to: assigned_to,
+          status_text: status_text,
+          open: open
+        };
+
+        IssueTrackerService.updateIssue(id, updates)
           .then(updatedIssue => {
             res.send(updatedIssue);
           })

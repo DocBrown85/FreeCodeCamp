@@ -17,6 +17,7 @@ module.exports = {
         });
     });
   },
+
   addIssue: ({
     project: project,
     issue_title: issue_title,
@@ -42,6 +43,37 @@ module.exports = {
         });
     });
   },
-  updateIssue: () => {},
+
+  updateIssue: (
+    id,
+    {
+      issue_title: issue_title,
+      issue_text: issue_text,
+      created_by: created_by,
+      assigned_to: assigned_to,
+      status_text: status_text,
+      open: open
+    }
+  ) => {
+    return new Promise((resolve, reject) => {
+      let updates = {
+        issue_title: issue_title,
+        issue_text: issue_text,
+        created_by: created_by,
+        assigned_to: assigned_to,
+        status_text: status_text,
+        open: open
+      };
+
+      IssueDataSource.updateIssue(id, updates)
+        .then(updatedIssue => {
+          resolve(updatedIssue);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
   deleteIssue: () => {}
 };

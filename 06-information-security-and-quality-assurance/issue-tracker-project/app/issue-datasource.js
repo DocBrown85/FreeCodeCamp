@@ -5,6 +5,7 @@
 
 const mongo = require("mongodb");
 const mongoose = require("mongoose");
+const ObjectId = require("mongodb").ObjectID;
 
 const IssueSchema = mongoose.Schema(
   {
@@ -99,7 +100,47 @@ module.exports = {
     });
   },
 
-  updateIssue: () => {},
+  updateIssue: (
+    id,
+    {
+      issue_title: issue_title,
+      issue_text: issue_text,
+      created_by: created_by,
+      assigned_to: assigned_to,
+      status_text: status_text,
+      open: open
+    }
+  ) => {
+    return new Promise((resolve, reject) => {
+      let updates = {
+        issue_title: issue_title,
+        issue_text: issue_text,
+        created_by: created_by,
+        assigned_to: assigned_to,
+        status_text: status_text,
+        open: open
+      };
+
+      for (var ele in updates) {
+        if (!updates[ele]) {
+          delete updates[ele];
+        }
+      }
+
+      Issue.findOneAndUpdate(
+        {_id: new ObjectId(id)},
+        updates,
+        {new: true},
+        function(err, updatedIssue) {
+          if (err) {
+            reject({error: err});
+            return;
+          }
+          resolve(updatedIssue);
+        }
+      );
+    });
+  },
 
   deleteIssue: () => {}
 };

@@ -16,33 +16,81 @@ chai.use(chaiHttp);
 suite("Functional Tests", function() {
   suite("POST /api/issues/{project} => object with issue data", function() {
     test("Every field filled in", function(done) {
+      const issue = {
+        issue_title: "Title",
+        issue_text: "text",
+        created_by: "Functional Test - Every field filled in",
+        assigned_to: "Chai and Mocha",
+        status_text: "In QA"
+      };
+
       chai
         .request(server)
         .post("/api/issues/test")
-        .send({
-          issue_title: "Title",
-          issue_text: "text",
-          created_by: "Functional Test - Every field filled in",
-          assigned_to: "Chai and Mocha",
-          status_text: "In QA"
-        })
+        .send(issue)
         .end(function(err, res) {
           assert.equal(res.status, 200);
-
-          //fill me in too!
-
+          assert.equal(res.body.issue_title, issue.issue_title);
+          assert.equal(res.body.issue_text, issue.issue_text);
+          assert.equal(res.body.created_by, issue.created_by);
+          assert.equal(res.body.assigned_to, issue.assigned_to);
+          assert.equal(res.body.status_text, issue.status_text);
           done();
         });
     });
 
     test("Required fields filled in", function(done) {
-      assert.fail();
-      done();
+      const issue = {
+        issue_title: "Title",
+        issue_text: "text",
+        created_by: "Functional Test - Every field filled in"
+      };
+
+      chai
+        .request(server)
+        .post("/api/issues/test")
+        .send(issue)
+        .end(function(err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.issue_title, issue.issue_title);
+          assert.equal(res.body.issue_text, issue.issue_text);
+          assert.equal(res.body.created_by, issue.created_by);
+          done();
+        });
     });
 
     test("Missing required fields", function(done) {
-      assert.fail();
-      done();
+      const issue = {
+        assigned_to: "Chai and Mocha",
+        status_text: "In QA"
+      };
+
+      chai
+        .request(server)
+        .post("/api/issues/test")
+        .send(issue)
+        .end(function(err, res) {
+          assert.equal(res.status, 422);
+          assert.isDefined(res.body.errors);
+          assert.isNotNull(res.body.errors);
+          assert.isArray(res.body.errors);
+          assert.isAbove(res.body.errors.length, 0);
+          for (const error of res.body.errors) {
+            assert.isDefined(error.msg);
+            assert.isNotNull(res.body.msg);
+            assert.isDefined(error.param);
+            assert.isNotNull(res.body.param);
+            assert.isDefined(error.location);
+            assert.isNotNull(res.body.location);
+
+            assert.oneOf(error.param, [
+              "issue_title",
+              "issue_text",
+              "created_by"
+            ]);
+          }
+          done();
+        });
     });
   });
 

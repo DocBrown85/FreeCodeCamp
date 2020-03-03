@@ -60,9 +60,33 @@ mongoose.connect(
 );
 
 module.exports = {
-  getIssues: project => {
+  getIssues: ({
+    _id: _id,
+    project: project,
+    issue_title: issue_title,
+    issue_text: issue_text,
+    created_by: created_by,
+    assigned_to: assigned_to,
+    status_text: status_text
+  }) => {
     return new Promise((resolve, reject) => {
-      Issue.find({project: project}, (err, data) => {
+      let filters = {
+        _id: _id,
+        project: project,
+        issue_title: issue_title,
+        issue_text: issue_text,
+        created_by: created_by,
+        assigned_to: assigned_to,
+        status_text: status_text
+      };
+
+      for (var ele in filters) {
+        if (!filters[ele]) {
+          delete filters[ele];
+        }
+      }
+
+      Issue.find(filters, (err, data) => {
         if (err) {
           reject({error: err});
           return;

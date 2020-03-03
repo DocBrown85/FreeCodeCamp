@@ -200,13 +200,59 @@ suite("Functional Tests", function() {
       });
 
       test("One filter", function(done) {
-        assert.fail();
-        done();
+        const filters = {created_by: "pluto"};
+        chai
+          .request(server)
+          .get("/api/issues/apitest")
+          .query(filters)
+          .end(function(err, res) {
+            assert.equal(res.status, 200);
+            assert.isArray(res.body);
+            for (i = 0; i < res.body.length; i++) {
+              assert.property(res.body[i], "issue_title");
+              assert.property(res.body[i], "issue_text");
+              assert.property(res.body[i], "created_on");
+              assert.property(res.body[i], "updated_on");
+              assert.property(res.body[i], "created_by");
+              assert.property(res.body[i], "assigned_to");
+              assert.property(res.body[i], "open");
+              assert.property(res.body[i], "status_text");
+              assert.property(res.body[i], "_id");
+              assert.equal(res.body[i].created_by, filters.created_by);
+            }
+            done();
+          });
       });
 
       test("Multiple filters (test for multiple fields you know will be in the db for a return)", function(done) {
-        assert.fail();
-        done();
+        const filters = {
+          created_by: "pluto",
+          open: false,
+          assigned_to: "pippo"
+        };
+        chai
+          .request(server)
+          .get("/api/issues/apitest")
+          .query(filters)
+          .end(function(err, res) {
+            assert.equal(res.status, 200);
+            assert.isArray(res.body);
+            for (i = 0; i < res.body.length; i++) {
+              assert.property(res.body[i], "issue_title");
+              assert.property(res.body[i], "issue_text");
+              assert.property(res.body[i], "created_on");
+              assert.property(res.body[i], "updated_on");
+              assert.property(res.body[i], "created_by");
+              assert.property(res.body[i], "assigned_to");
+              assert.property(res.body[i], "open");
+              assert.property(res.body[i], "status_text");
+              assert.property(res.body[i], "_id");
+              assert.equal(res.body[i].created_by, filters.created_by);
+              assert.equal(res.body[i].open, filters.open);
+              assert.equal(res.body[i].assigned_to, filters.assigned_to);
+            }
+            done();
+          });
       });
     }
   );

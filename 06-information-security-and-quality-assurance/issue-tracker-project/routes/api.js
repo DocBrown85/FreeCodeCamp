@@ -29,11 +29,27 @@ module.exports = function(app) {
           return res.status(422).json({errors: errors.array()});
         }
 
-        var project = req.params.project;
+        const project = req.params.project;
+        const _id = req.query._id;
+        const issue_title = req.query.issue_title;
+        const issue_text = req.query.issue_text;
+        const created_by = req.query.created_by;
+        const assigned_to = req.query.assigned_to;
+        const status_text = req.query.status_text;
 
-        IssueTrackerService.getIssues(project)
-          .then(issue => {
-            res.send(issue);
+        let filters = {
+          _id: _id,
+          project: project,
+          issue_title: issue_title,
+          issue_text: issue_text,
+          created_by: created_by,
+          assigned_to: assigned_to,
+          status_text: status_text
+        };
+
+        IssueTrackerService.getIssues(filters)
+          .then(issues => {
+            res.send(issues);
           })
           .catch(error => {
             res.send(error);

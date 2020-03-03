@@ -67,7 +67,8 @@ module.exports = {
     issue_text: issue_text,
     created_by: created_by,
     assigned_to: assigned_to,
-    status_text: status_text
+    status_text: status_text,
+    open
   }) => {
     return new Promise((resolve, reject) => {
       let filters = {
@@ -77,7 +78,8 @@ module.exports = {
         issue_text: issue_text,
         created_by: created_by,
         assigned_to: assigned_to,
-        status_text: status_text
+        status_text: status_text,
+        open
       };
 
       for (var ele in filters) {

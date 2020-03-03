@@ -13,7 +13,8 @@ module.exports = {
     issue_text: issue_text,
     created_by: created_by,
     assigned_to: assigned_to,
-    status_text: status_text
+    status_text: status_text,
+    open
   }) => {
     return new Promise((resolve, reject) => {
       IssueDataSource.getIssues({
@@ -23,7 +24,8 @@ module.exports = {
         issue_text: issue_text,
         created_by: created_by,
         assigned_to: assigned_to,
-        status_text: status_text
+        status_text: status_text,
+        open
       })
         .then(issues => {
           resolve(issues);

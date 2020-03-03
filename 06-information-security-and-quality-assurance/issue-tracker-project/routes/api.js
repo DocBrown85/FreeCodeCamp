@@ -36,6 +36,7 @@ module.exports = function(app) {
         const created_by = req.query.created_by;
         const assigned_to = req.query.assigned_to;
         const status_text = req.query.status_text;
+        const open = req.query.open;
 
         let filters = {
           _id: _id,
@@ -44,7 +45,8 @@ module.exports = function(app) {
           issue_text: issue_text,
           created_by: created_by,
           assigned_to: assigned_to,
-          status_text: status_text
+          status_text: status_text,
+          open: open
         };
 
         IssueTrackerService.getIssues(filters)

@@ -14,6 +14,9 @@ var server = require("../server");
 chai.use(chaiHttp);
 
 suite("Functional Tests", function() {
+  var _id1;
+  var _id2;
+
   suite("POST /api/issues/{project} => object with issue data", function() {
     test("Every field filled in", function(done) {
       const issue = {
@@ -30,6 +33,7 @@ suite("Functional Tests", function() {
         .send(issue)
         .end(function(err, res) {
           assert.equal(res.status, 200);
+          _id1 = res.body._id;
           assert.equal(res.body.issue_title, issue.issue_title);
           assert.equal(res.body.issue_text, issue.issue_text);
           assert.equal(res.body.created_by, issue.created_by);
@@ -51,6 +55,7 @@ suite("Functional Tests", function() {
         .post("/api/issues/test")
         .send(issue)
         .end(function(err, res) {
+          _id2 = res.body._id;
           assert.equal(res.status, 200);
           assert.equal(res.body.issue_title, issue.issue_title);
           assert.equal(res.body.issue_text, issue.issue_text);
@@ -96,18 +101,54 @@ suite("Functional Tests", function() {
 
   suite("PUT /api/issues/{project} => text", function() {
     test("No body", function(done) {
-      assert.fail();
-      done();
+      chai
+        .request(server)
+        .put("/api/issues/test")
+        .end(function(err, res) {
+          assert.equal(res.status, 422);
+          assert.isDefined(res.body.errors);
+          assert.isNotNull(res.body.errors);
+          assert.isArray(res.body.errors);
+          assert.isAbove(res.body.errors.length, 0);
+          done();
+        });
     });
 
     test("One field to update", function(done) {
-      assert.fail();
-      done();
+      const updates = {
+        _id: _id1,
+        issue_title: "Updated Title"
+      };
+
+      chai
+        .request(server)
+        .put("/api/issues/test")
+        .send(updates)
+        .end(function(err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.issue_title, updates.issue_title);
+          done();
+        });
     });
 
     test("Multiple fields to update", function(done) {
-      assert.fail();
-      done();
+      const updates = {
+        _id: _id2,
+        issue_title: "Another Title",
+        issue_text: "another text",
+        assigned_to: "Chai, Mocha and Ciccio"
+      };
+      chai
+        .request(server)
+        .put("/api/issues/test")
+        .send(updates)
+        .end(function(err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.issue_title, updates.issue_title);
+          assert.equal(res.body.issue_text, updates.issue_text);
+          assert.equal(res.body.assigned_to, updates.assigned_to);
+          done();
+        });
     });
   });
 

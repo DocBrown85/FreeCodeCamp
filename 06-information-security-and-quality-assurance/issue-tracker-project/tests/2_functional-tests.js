@@ -33,12 +33,22 @@ suite("Functional Tests", function() {
         .send(issue)
         .end(function(err, res) {
           assert.equal(res.status, 200);
+          assert.property(res.body, "issue_title");
+          assert.property(res.body, "issue_text");
+          assert.property(res.body, "created_on");
+          assert.property(res.body, "updated_on");
+          assert.property(res.body, "created_by");
+          assert.property(res.body, "assigned_to");
+          assert.property(res.body, "open");
+          assert.property(res.body, "status_text");
+          assert.property(res.body, "_id");
           _id1 = res.body._id;
           assert.equal(res.body.issue_title, issue.issue_title);
           assert.equal(res.body.issue_text, issue.issue_text);
           assert.equal(res.body.created_by, issue.created_by);
           assert.equal(res.body.assigned_to, issue.assigned_to);
           assert.equal(res.body.status_text, issue.status_text);
+          assert.isBoolean(res.body.open);
           done();
         });
     });
@@ -55,11 +65,24 @@ suite("Functional Tests", function() {
         .post("/api/issues/test")
         .send(issue)
         .end(function(err, res) {
+          assert.property(res.body, "issue_title");
+          assert.property(res.body, "issue_text");
+          assert.property(res.body, "created_on");
+          assert.property(res.body, "updated_on");
+          assert.property(res.body, "created_by");
+          assert.property(res.body, "assigned_to");
+          assert.property(res.body, "open");
+          assert.property(res.body, "status_text");
+          assert.property(res.body, "_id");
           _id2 = res.body._id;
           assert.equal(res.status, 200);
           assert.equal(res.body.issue_title, issue.issue_title);
           assert.equal(res.body.issue_text, issue.issue_text);
           assert.equal(res.body.created_by, issue.created_by);
+          assert.equal(res.body.assigned_to, "");
+          assert.equal(res.body.status_text, "");
+          assert.isBoolean(res.body.open);
+          assert.equal(res.body.open, true);
           done();
         });
     });

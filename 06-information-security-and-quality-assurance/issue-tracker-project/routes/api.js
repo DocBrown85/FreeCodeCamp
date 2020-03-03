@@ -21,7 +21,25 @@ module.exports = function(app) {
         check("project")
           .exists()
           .notEmpty()
-          .isString()
+          .isString(),
+        check("_id")
+          .optional()
+          .isMongoId(),
+        check("issue_title")
+          .optional()
+          .isString(),
+        check("issue_text")
+          .optional()
+          .isString(),
+        check("created_by")
+          .optional()
+          .isString(),
+        check("assigned_to")
+          .optional()
+          .isString(),
+        check("open")
+          .optional()
+          .isBoolean()
       ],
       function(req, res) {
         const errors = validationResult(req);

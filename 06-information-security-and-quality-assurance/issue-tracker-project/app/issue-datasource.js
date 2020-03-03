@@ -168,5 +168,15 @@ module.exports = {
     });
   },
 
-  deleteIssue: () => {}
+  deleteIssue: id => {
+    return new Promise((resolve, reject) => {
+      Issue.findOneAndDelete({_id: new ObjectId(id)}, function(err, data) {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        resolve(data);
+      });
+    });
+  }
 };

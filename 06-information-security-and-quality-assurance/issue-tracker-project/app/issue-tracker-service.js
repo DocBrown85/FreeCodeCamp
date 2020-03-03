@@ -93,5 +93,15 @@ module.exports = {
     });
   },
 
-  deleteIssue: () => {}
+  deleteIssue: id => {
+    return new Promise((resolve, reject) => {
+      IssueDataSource.deleteIssue(id)
+        .then(data => {
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 };

@@ -193,7 +193,33 @@ module.exports = function(app) {
       }
     )
 
-    .delete(function(req, res) {
-      var project = req.params.project;
-    });
+    .delete(
+      [
+        check("project")
+          .exists()
+          .notEmpty()
+          .isString(),
+        check("_id")
+          .exists()
+          .notEmpty()
+          .isMongoId()
+      ],
+      function(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        var project = req.params.project;
+        const id = req.body._id;
+
+        IssueTrackerService.deleteIssue(id)
+          .then(data => {
+            res.send(data);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    );
 };

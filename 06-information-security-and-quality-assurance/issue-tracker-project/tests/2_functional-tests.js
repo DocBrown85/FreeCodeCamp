@@ -259,13 +259,39 @@ suite("Functional Tests", function() {
 
   suite("DELETE /api/issues/{project} => text", function() {
     test("No _id", function(done) {
-      assert.fail();
-      done();
+      chai
+        .request(server)
+        .delete("/api/issues/apitest")
+        .send({})
+        .end(function(err, res) {
+          assert.equal(res.status, 422);
+          assert.isDefined(res.body.errors);
+          assert.isNotNull(res.body.errors);
+          assert.isArray(res.body.errors);
+          assert.isAbove(res.body.errors.length, 0);
+          done();
+        });
     });
 
     test("Valid _id", function(done) {
-      assert.fail();
-      done();
+      chai
+        .request(server)
+        .delete("/api/issues/apitest")
+        .send({_id: _id2})
+        .end(function(err, res) {
+          assert.equal(res.status, 200);
+          assert.property(res.body, "issue_title");
+          assert.property(res.body, "issue_text");
+          assert.property(res.body, "created_on");
+          assert.property(res.body, "updated_on");
+          assert.property(res.body, "created_by");
+          assert.property(res.body, "assigned_to");
+          assert.property(res.body, "open");
+          assert.property(res.body, "status_text");
+          assert.property(res.body, "_id");
+          assert.equal(res.body._id, _id2);
+          done();
+        });
     });
   });
 });

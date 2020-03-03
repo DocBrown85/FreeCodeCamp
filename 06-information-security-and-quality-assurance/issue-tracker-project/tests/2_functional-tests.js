@@ -29,7 +29,7 @@ suite("Functional Tests", function() {
 
       chai
         .request(server)
-        .post("/api/issues/test")
+        .post("/api/issues/apitest")
         .send(issue)
         .end(function(err, res) {
           assert.equal(res.status, 200);
@@ -62,7 +62,7 @@ suite("Functional Tests", function() {
 
       chai
         .request(server)
-        .post("/api/issues/test")
+        .post("/api/issues/apitest")
         .send(issue)
         .end(function(err, res) {
           assert.property(res.body, "issue_title");
@@ -95,7 +95,7 @@ suite("Functional Tests", function() {
 
       chai
         .request(server)
-        .post("/api/issues/test")
+        .post("/api/issues/apitest")
         .send(issue)
         .end(function(err, res) {
           assert.equal(res.status, 422);
@@ -126,7 +126,7 @@ suite("Functional Tests", function() {
     test("No body", function(done) {
       chai
         .request(server)
-        .put("/api/issues/test")
+        .put("/api/issues/apitest")
         .end(function(err, res) {
           assert.equal(res.status, 422);
           assert.isDefined(res.body.errors);
@@ -145,7 +145,7 @@ suite("Functional Tests", function() {
 
       chai
         .request(server)
-        .put("/api/issues/test")
+        .put("/api/issues/apitest")
         .send(updates)
         .end(function(err, res) {
           assert.equal(res.status, 200);
@@ -163,7 +163,7 @@ suite("Functional Tests", function() {
       };
       chai
         .request(server)
-        .put("/api/issues/test")
+        .put("/api/issues/apitest")
         .send(updates)
         .end(function(err, res) {
           assert.equal(res.status, 200);
@@ -181,7 +181,7 @@ suite("Functional Tests", function() {
       test("No filter", function(done) {
         chai
           .request(server)
-          .get("/api/issues/test")
+          .get("/api/issues/apitest")
           .query({})
           .end(function(err, res) {
             assert.equal(res.status, 200);

@@ -8,10 +8,9 @@
 
 "use strict";
 
-var expect = require("chai").expect;
-var MongoClient = require("mongodb");
+const {check, validationResult} = require("express-validator");
 
-const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
+const IssueTrackerService = require("../app/stock-price-checker-service.js");
 
 module.exports = function(app) {
   app.route("/api/stock-prices").get(function(req, res) {});

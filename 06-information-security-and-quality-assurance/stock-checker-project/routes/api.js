@@ -31,19 +31,35 @@ module.exports = function(app) {
       const like = req.query.like || false;
       const ipAddress = req.connection.remoteAddress;
 
-      const parameters = {
-        stock: stock,
-        like: like,
-        ipAddress: ipAddress
-      };
+      if (!Array.isArray(stock)) {
+        const parameters = {
+          stock: stock,
+          like: like,
+          ipAddress: ipAddress
+        };
 
-      StockPriceCheckerService.getStockData(parameters)
-        .then(stockData => {
-          res.send({stockData: stockData});
-        })
-        .catch(error => {
-          res.send(error);
-        });
+        StockPriceCheckerService.getStockData(parameters)
+          .then(stockData => {
+            res.send({stockData: stockData});
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      } else {
+        const parameters = {
+          stocks: [stock[0], stock[1]],
+          like: like,
+          ipAddress: ipAddress
+        };
+
+        StockPriceCheckerService.compareStocksData(parameters)
+          .then(stockData => {
+            res.send({stockData: stockData});
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
     }
   );
 };

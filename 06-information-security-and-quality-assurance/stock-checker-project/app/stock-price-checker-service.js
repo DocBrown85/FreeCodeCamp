@@ -56,6 +56,76 @@ const getStockData = ({stock: stock, like: like, ipAddress: ipAddress}) => {
   });
 };
 
+const compareStocksData = ({
+  stocks: stocks,
+  like: like,
+  ipAddress: ipAddress
+}) => {
+  return new Promise((resolve, reject) => {
+    _fetchStocksData({
+      stocks: stocks,
+      like: like,
+      ipAddress: ipAddress
+    })
+      .then(stocksData => {
+        let stocksComparison = _getStocksComparison(
+          stocksData[0],
+          stocksData[1]
+        );
+        resolve(stocksComparison);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const _fetchStocksData = ({
+  stocks: stocks,
+  like: like,
+  ipAddress: ipAddress
+}) => {
+  return new Promise((resolve, reject) => {
+    let stocksDataPromises = [];
+    for (let i = 0; i < stocks.length; i++) {
+      stocksDataPromises.push(
+        getStockData({
+          stock: stocks[i],
+          like: like,
+          ipAddress: ipAddress
+        })
+      );
+    }
+
+    Promise.all(stocksDataPromises)
+      .then(stocksData => {
+        resolve(stocksData);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const _getStocksComparison = (stockDataA, stockDataB) => {
+  let stocksComparison = [];
+
+  stocksComparison[0] = {
+    stock: stockDataA.stock,
+    price: stockDataA.price,
+    rel_likes: stockDataA.likes - stockDataB.likes
+  };
+
+  stocksComparison[1] = {
+    stock: stockDataB.stock,
+    price: stockDataB.price,
+    rel_likes: stockDataB.likes - stockDataA.likes
+  };
+
+  return stocksComparison;
+};
+
 module.exports = {
-  getStockData: getStockData
+  getStockData: getStockData,
+  compareStocksData: compareStocksData
 };

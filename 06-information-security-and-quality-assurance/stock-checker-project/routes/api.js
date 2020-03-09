@@ -29,8 +29,13 @@ module.exports = function(app) {
       }
       const stock = req.query.stock;
       const like = req.query.like || false;
+      const ipAddress = req.connection.remoteAddress;
 
-      const parameters = {stock: stock, like: like};
+      const parameters = {
+        stock: stock,
+        like: like,
+        ipAddress: ipAddress
+      };
 
       StockPriceCheckerService.getStockData(parameters)
         .then(stockData => {

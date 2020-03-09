@@ -6,7 +6,27 @@
 const StockPollDataSource = require("./stock-poll-datasource");
 const StockService = require("./stock-service");
 
-const getStockData = ({stock: stock, like: like}) => {
+const addStockLike = ({stock: stock, ipAddress: ipAddress}) => {
+  return new Promise((resolve, reject) => {
+    StockPollDataSource.userHasVoted(ipAddress)
+      .then(userHasVoted => {
+        if (!userHasVoted) {
+          return StockPollDataSource.addStockPreference({
+            stock: stock,
+            ipAddress: ipAddress
+          });
+        }
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const getStockData = ({stock: stock, like: like, ipAddress: ipAddress}) => {
   return new Promise((resolve, reject) => {
     let stockData = {
       stock: null,
@@ -19,9 +39,15 @@ const getStockData = ({stock: stock, like: like}) => {
         stockData.price = stockServiceData.latestPrice;
       })
       .then(() => {
-        stockData.likes = 0;
+        if (like) {
+          return addStockLike({stock: stock, ipAddress: ipAddress});
+        }
       })
       .then(() => {
+        return StockPollDataSource.getTotalStockPreferences(stock);
+      })
+      .then(totalStockPreferences => {
+        stockData.likes = totalStockPreferences.length;
         resolve(stockData);
       })
       .catch(error => {

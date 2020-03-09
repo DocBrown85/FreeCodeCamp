@@ -7,9 +7,9 @@ const mongo = require("mongodb");
 const mongoose = require("mongoose");
 const ObjectId = require("mongodb").ObjectID;
 
-const StockPollSchema = mongoose.Schema(
+const StockPreferenceSchema = mongoose.Schema(
   {
-    votingIpAddress: {
+    user: {
       type: String,
       required: true
     },
@@ -22,7 +22,10 @@ const StockPollSchema = mongoose.Schema(
     timestamps: {createdAt: "created_on", updatedAt: "updated_on"}
   }
 );
-const StockPoll = mongoose.model("StockPoll", StockPollSchema);
+const StockPreference = mongoose.model(
+  "StockPreference",
+  StockPreferenceSchema
+);
 
 mongoose.connect(
   process.env.DATABASE_URI,
@@ -39,4 +42,51 @@ mongoose.connect(
   }
 );
 
-module.exports = {};
+const userHasVoted = user => {
+  return new Promise((resolve, reject) => {
+    StockPreference.find({user: user}, (err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      let userHasVoted = data.length > 0;
+
+      resolve(userHasVoted);
+    });
+  });
+};
+
+const addStockPreference = ({stock: stock, ipAddress: ipAddress}) => {
+  return new Promise((resolve, reject) => {
+    let stockPreference = new StockPreference({
+      user: ipAddress,
+      stockPreference: stock
+    });
+
+    stockPreference.save((err, preference) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      resolve(preference);
+    });
+  });
+};
+
+const getTotalStockPreferences = stock => {
+  return new Promise((resolve, reject) => {
+    StockPreference.find({stockPreference: stock}, (err, data) => {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      resolve(data);
+    });
+  });
+};
+
+module.exports = {
+  userHasVoted: userHasVoted,
+  addStockPreference: addStockPreference,
+  getTotalStockPreferences: getTotalStockPreferences
+};

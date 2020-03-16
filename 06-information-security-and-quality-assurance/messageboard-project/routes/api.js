@@ -8,10 +8,38 @@
 
 "use strict";
 
-var expect = require("chai").expect;
+const {check, validationResult} = require("express-validator");
+
+const MessageBoardService = require("../app/message-board-service.js");
 
 module.exports = function(app) {
-  app.route("/api/threads/:board");
+  app
+    .route("/api/threads/:board")
+    .get((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .post((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .put((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .delete((req, res) => {
+      res.status(501).send("not implemented");
+    });
 
-  app.route("/api/replies/:board");
+  app
+    .route("/api/replies/:board")
+    .get((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .post((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .put((req, res) => {
+      res.status(501).send("not implemented");
+    })
+    .delete((req, res) => {
+      res.status(501).send("not implemented");
+    });
 };

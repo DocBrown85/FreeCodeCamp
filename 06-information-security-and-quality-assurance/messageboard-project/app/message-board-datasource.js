@@ -114,7 +114,30 @@ const addThreadToMessageBoard = ({
   });
 };
 
+const deleteThreadFromMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
+
+    Thread.findOneAndDelete(
+      {_id: new ObjectId(threadId), delete_password: deletePassword},
+      function(err, thread) {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+
+        resolve(thread);
+      }
+    );
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
-  addThreadToMessageBoard: addThreadToMessageBoard
+  addThreadToMessageBoard: addThreadToMessageBoard,
+  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
 };

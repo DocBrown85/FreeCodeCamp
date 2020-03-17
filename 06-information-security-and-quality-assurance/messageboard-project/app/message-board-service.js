@@ -49,7 +49,32 @@ const addThreadToMessageBoard = ({
   });
 };
 
+const deleteThreadFromMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.deleteThreadFromMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId,
+      deletePassword: deletePassword
+    })
+      .then(thread => {
+        if (thread === null) {
+          resolve("incorrect password");
+        } else {
+          resolve("success");
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
-  addThreadToMessageBoard: addThreadToMessageBoard
+  addThreadToMessageBoard: addThreadToMessageBoard,
+  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
 };

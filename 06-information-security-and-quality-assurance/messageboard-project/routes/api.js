@@ -69,9 +69,39 @@ module.exports = function(app) {
       res.status(501).send("not implemented");
     })
 
-    .delete((req, res) => {
-      res.status(501).send("not implemented");
-    });
+    .delete(
+      [
+        check("thread_id")
+          .optional()
+          .isMongoId(),
+        check("delete_password")
+          .exists()
+          .notEmpty()
+          .isString()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        const messageBoard = req.params.board;
+        const threadId = req.body.thread_id;
+        const deletePassword = req.body.delete_password;
+
+        MessageBoardService.deleteThreadFromMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId,
+          deletePassword: deletePassword
+        })
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    );
 
   app
     .route("/api/replies/:board")

@@ -15,7 +15,7 @@ const ReplySchema = mongoose.Schema(
     },
     reported: {
       type: Boolean,
-      default: true
+      default: false
     },
     delete_password: {
       type: String,

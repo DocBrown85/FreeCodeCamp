@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 
 suite("Functional Tests", function() {
   const messageBoard = "a_message_board";
-  const someText = Math.floor(Math.random() * 10000000);
+  const someText = Math.floor(Math.random() * 10000000) + "";
   const deletePassword = "password";
   const wrongDeletePassword = "wrongpassword";
   let threadId1; //_id of thread 1 created

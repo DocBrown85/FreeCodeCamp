@@ -5,12 +5,22 @@
 
 const MessageBoardDataSource = require("./message-board-datasource");
 
-const getThreadsFromMessageBoard = ({messageBoard: messageBoard}) => {
+const getThreadsFromMessageBoard = ({
+  messageBoard: messageBoard,
+  limit = 10
+}) => {
   return new Promise((resolve, reject) => {
     MessageBoardDataSource.getThreadsFromMessageBoard({
-      messageBoard: messageBoard
+      messageBoard: messageBoard,
+      limit: limit
     })
       .then(threads => {
+        threads.forEach(function(thread) {
+          thread.replycount = thread.replies.length;
+          if (thread.replies.length > 3) {
+            thread.replies = thread.replies.slice(-3);
+          }
+        });
         resolve(threads);
       })
       .catch(error => {

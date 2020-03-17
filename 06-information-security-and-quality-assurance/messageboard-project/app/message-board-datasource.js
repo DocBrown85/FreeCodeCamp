@@ -67,7 +67,10 @@ mongoose.connect(
   }
 );
 
-const getThreadsFromMessageBoard = ({messageBoard: messageBoard}) => {
+const getThreadsFromMessageBoard = ({
+  messageBoard: messageBoard,
+  limit = 10
+}) => {
   return new Promise((resolve, reject) => {
     const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
 
@@ -81,18 +84,12 @@ const getThreadsFromMessageBoard = ({messageBoard: messageBoard}) => {
       }
     )
       .sort({bumped_on: -1})
-      .limit(10)
+      .limit(limit)
       .exec((err, threads) => {
         if (err) {
           reject({error: err});
           return;
         }
-        threads.forEach(function(thread) {
-          thread.replycount = thread.replies.length;
-          if (thread.replies.length > 3) {
-            thread.replies = thread.replies.slice(-3);
-          }
-        });
         resolve(threads);
       });
   });

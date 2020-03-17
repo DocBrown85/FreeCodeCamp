@@ -49,6 +49,28 @@ const addThreadToMessageBoard = ({
   });
 };
 
+const reportThreadOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.reportThreadOnMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId
+    })
+      .then(thread => {
+        if (thread === null) {
+          resolve("incorrect thread id");
+        } else {
+          resolve("reported");
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 const deleteThreadFromMessageBoard = ({
   messageBoard: messageBoard,
   threadId: threadId,
@@ -76,5 +98,6 @@ const deleteThreadFromMessageBoard = ({
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
+  reportThreadOnMessageBoard: reportThreadOnMessageBoard,
   deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
 };

@@ -40,7 +40,7 @@ const ThreadSchema = mongoose.Schema(
     },
     reported: {
       type: Boolean,
-      default: true
+      default: false
     },
     replies: {
       type: [ReplySchema],
@@ -114,6 +114,27 @@ const addThreadToMessageBoard = ({
   });
 };
 
+const reportThreadOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId
+}) => {
+  return new Promise((resolve, reject) => {
+    const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
+    Thread.findOneAndUpdate(
+      {_id: new ObjectId(threadId)},
+      {reported: true},
+      {new: true},
+      function(err, updatedThread) {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        resolve(updatedThread);
+      }
+    );
+  });
+};
+
 const deleteThreadFromMessageBoard = ({
   messageBoard: messageBoard,
   threadId: threadId,
@@ -139,5 +160,6 @@ const deleteThreadFromMessageBoard = ({
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
+  reportThreadOnMessageBoard: reportThreadOnMessageBoard,
   deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
 };

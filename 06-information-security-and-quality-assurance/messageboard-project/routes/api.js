@@ -65,14 +65,38 @@ module.exports = function(app) {
       }
     )
 
-    .put((req, res) => {
-      res.status(501).send("not implemented");
-    })
+    .put(
+      [
+        check("report_id")
+          .exists()
+          .isMongoId()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        const messageBoard = req.params.board;
+        const threadId = req.body.report_id;
+
+        MessageBoardService.reportThreadOnMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId
+        })
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    )
 
     .delete(
       [
         check("thread_id")
-          .optional()
+          .exists()
           .isMongoId(),
         check("delete_password")
           .exists()

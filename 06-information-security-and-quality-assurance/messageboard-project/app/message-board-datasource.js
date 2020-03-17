@@ -71,13 +71,30 @@ const getThreadsFromMessageBoard = ({messageBoard: messageBoard}) => {
   return new Promise((resolve, reject) => {
     const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
 
-    Thread.find({}, (err, threads) => {
-      if (err) {
-        reject({error: err});
-        return;
+    Thread.find(
+      {},
+      {
+        reported: 0,
+        delete_password: 0,
+        "replies.delete_password": 0,
+        "replies.reported": 0
       }
-      resolve(threads);
-    });
+    )
+      .sort({bumped_on: -1})
+      .limit(10)
+      .exec((err, threads) => {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        threads.forEach(function(thread) {
+          thread.replycount = thread.replies.length;
+          if (thread.replies.length > 3) {
+            thread.replies = thread.replies.slice(-3);
+          }
+        });
+        resolve(threads);
+      });
   });
 };
 

@@ -17,7 +17,17 @@ module.exports = function(app) {
     .route("/api/threads/:board")
 
     .get((req, res) => {
-      res.status(501).send("not implemented");
+      const messageBoard = req.params.board;
+
+      MessageBoardService.getThreadsFromMessageBoard({
+        messageBoard: messageBoard
+      })
+        .then(threads => {
+          res.send(threads);
+        })
+        .catch(error => {
+          res.send(error);
+        });
     })
 
     .post(

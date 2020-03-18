@@ -282,7 +282,7 @@ const deleteThreadReplyOnMessageBoard = ({
         reject("incorrect password");
         return;
       }
-      reply.remove();
+      reply.text = "[deleted]";
 
       thread.save((err, thread) => {
         if (err) {

@@ -130,13 +130,73 @@ module.exports = function(app) {
   app
     .route("/api/replies/:board")
 
-    .get((req, res) => {
-      res.status(501).send("not implemented");
-    })
+    .get(
+      [
+        check("thread_id")
+          .exists()
+          .isMongoId()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
 
-    .post((req, res) => {
-      res.status(501).send("not implemented");
-    })
+        const messageBoard = req.params.board;
+        const threadId = req.query.thread_id;
+
+        MessageBoardService.getThreadRepliesFromMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId
+        })
+          .then(thread => {
+            res.send(thread);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    )
+
+    .post(
+      [
+        check("thread_id")
+          .exists()
+          .isMongoId(),
+        check("text")
+          .exists()
+          .notEmpty()
+          .isString(),
+        check("delete_password")
+          .exists()
+          .notEmpty()
+          .isString()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        const messageBoard = req.params.board;
+        const threadId = req.body.thread_id;
+        const text = req.body.text;
+        const deletePassword = req.body.delete_password;
+
+        MessageBoardService.addThreadReplyOnMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId,
+          text: text,
+          deletePassword: deletePassword
+        })
+          .then(thread => {
+            res.redirect("/b/" + messageBoard + "/" + threadId);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    )
 
     .put((req, res) => {
       res.status(501).send("not implemented");

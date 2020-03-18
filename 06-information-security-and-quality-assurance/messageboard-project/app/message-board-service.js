@@ -95,9 +95,59 @@ const deleteThreadFromMessageBoard = ({
   });
 };
 
+const getThreadRepliesFromMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.getThreadRepliesFromMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId
+    })
+      .then(thread => {
+        if (thread === null) {
+          reject("incorrect thread id");
+        } else {
+          resolve(thread);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const addThreadReplyOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  text: text,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.addThreadReplyOnMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId,
+      text: text,
+      deletePassword: deletePassword
+    })
+      .then(thread => {
+        if (thread === null) {
+          reject("incorrect thread id");
+        } else {
+          resolve(thread);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
   reportThreadOnMessageBoard: reportThreadOnMessageBoard,
-  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
+  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard,
+  getThreadRepliesFromMessageBoard: getThreadRepliesFromMessageBoard,
+  addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard
 };

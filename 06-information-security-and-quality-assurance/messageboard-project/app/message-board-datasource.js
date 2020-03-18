@@ -157,9 +157,74 @@ const deleteThreadFromMessageBoard = ({
   });
 };
 
+const getThreadRepliesFromMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId
+}) => {
+  return new Promise((resolve, reject) => {
+    const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
+    Thread.find(
+      {_id: new ObjectId(threadId)},
+      {
+        reported: 0,
+        delete_password: 0,
+        "replies.delete_password": 0,
+        "replies.reported": 0
+      },
+      function(err, threads) {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+
+        let thread = null;
+        if (threads.length == 1) {
+          thread = threads[0];
+        }
+
+        resolve(thread);
+      }
+    );
+  });
+};
+
+const addThreadReplyOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  text: text,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
+    Thread.findById(new ObjectId(threadId), function(err, thread) {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      if (thread === null) {
+        reject({error: "invalid thread id"});
+        return;
+      }
+
+      let reply = new Reply({text: text, delete_password: deletePassword});
+
+      thread.replies.push(reply);
+      thread.save((err, thread) => {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        resolve(thread);
+      });
+    });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
   reportThreadOnMessageBoard: reportThreadOnMessageBoard,
-  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard
+  deleteThreadFromMessageBoard: deleteThreadFromMessageBoard,
+  getThreadRepliesFromMessageBoard: getThreadRepliesFromMessageBoard,
+  addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard
 };

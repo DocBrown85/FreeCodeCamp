@@ -198,9 +198,38 @@ module.exports = function(app) {
       }
     )
 
-    .put((req, res) => {
-      res.status(501).send("not implemented");
-    })
+    .put(
+      [
+        check("thread_id")
+          .exists()
+          .isMongoId(),
+        check("reply_id")
+          .exists()
+          .isMongoId()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        const messageBoard = req.params.board;
+        const threadId = req.body.thread_id;
+        const replyId = req.body.reply_id;
+
+        MessageBoardService.reportThreadReplyOnMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId,
+          replyId: replyId
+        })
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    )
 
     .delete((req, res) => {
       res.status(501).send("not implemented");

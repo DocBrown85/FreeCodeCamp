@@ -143,11 +143,32 @@ const addThreadReplyOnMessageBoard = ({
   });
 };
 
+const reportThreadReplyOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  replyId: replyId
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.reportThreadReplyOnMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId,
+      replyId: replyId
+    })
+      .then(thread => {
+        resolve("reported");
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
   reportThreadOnMessageBoard: reportThreadOnMessageBoard,
   deleteThreadFromMessageBoard: deleteThreadFromMessageBoard,
   getThreadRepliesFromMessageBoard: getThreadRepliesFromMessageBoard,
-  addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard
+  addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard,
+  reportThreadReplyOnMessageBoard: reportThreadReplyOnMessageBoard
 };

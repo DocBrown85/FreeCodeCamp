@@ -20,7 +20,7 @@ suite("Functional Tests", function() {
   const wrongDeletePassword = "wrongpassword";
   let threadId1; //_id of thread 1 created
   let threadId2; //_id of thread 2 created
-  let threadId3; //_id of reply created
+  let replyId1; //_id of reply created
 
   suite("API ROUTING FOR /api/threads/:board", function() {
     suite("POST", function() {
@@ -111,7 +111,19 @@ suite("Functional Tests", function() {
 
   suite("API ROUTING FOR /api/replies/:board", function() {
     suite("POST", function() {
-      test("reply to thread", function(done) {
+      test("create two replies to thread (because we end up deleting 1 in the delete test)", function(done) {
+        chai
+          .request(server)
+          .post("/api/replies/" + messageBoard)
+          .send({
+            thread_id: threadId2,
+            text: "a reply" + someText,
+            delete_password: deletePassword
+          })
+          .end(function(err, res) {
+            assert.equal(res.status, 200);
+          });
+
         chai
           .request(server)
           .post("/api/replies/" + messageBoard)
@@ -143,12 +155,14 @@ suite("Functional Tests", function() {
             assert.notProperty(res.body, "delete_password");
             assert.notProperty(res.body, "reported");
             assert.isArray(res.body.replies);
+            assert.property(res.body.replies[0], "_id");
             assert.notProperty(res.body.replies[0], "delete_password");
             assert.notProperty(res.body.replies[0], "reported");
             assert.equal(
               res.body.replies[res.body.replies.length - 1].text,
               "a reply" + someText
             );
+            replyId1 = res.body.replies[0]._id;
             done();
           });
       });
@@ -158,8 +172,8 @@ suite("Functional Tests", function() {
       test("report reply", function(done) {
         chai
           .request(server)
-          .put("/api/threads/" + messageBoard)
-          .send({thread_id: threadId2, reply_id: threadId2})
+          .put("/api/replies/" + messageBoard)
+          .send({thread_id: threadId2, reply_id: replyId1})
           .end(function(err, res) {
             assert.equal(res.status, 200);
             assert.equal(res.text, "reported");
@@ -175,7 +189,7 @@ suite("Functional Tests", function() {
           .delete("/api/replies/" + messageBoard)
           .send({
             thread_id: threadId2,
-            reply_id: threadId3,
+            reply_id: replyId1,
             delete_password: wrongDeletePassword
           })
           .end(function(err, res) {
@@ -191,7 +205,7 @@ suite("Functional Tests", function() {
           .delete("/api/replies/" + messageBoard)
           .send({
             thread_id: threadId2,
-            reply_id: threadId3,
+            reply_id: replyId1,
             delete_password: deletePassword
           })
           .end(function(err, res) {

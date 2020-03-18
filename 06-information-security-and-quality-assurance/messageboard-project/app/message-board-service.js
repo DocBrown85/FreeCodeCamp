@@ -163,6 +163,28 @@ const reportThreadReplyOnMessageBoard = ({
   });
 };
 
+const deleteThreadReplyOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  replyId: replyId,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    MessageBoardDataSource.deleteThreadReplyOnMessageBoard({
+      messageBoard: messageBoard,
+      threadId: threadId,
+      replyId: replyId,
+      deletePassword: deletePassword
+    })
+      .then(thread => {
+        resolve("success");
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
@@ -170,5 +192,6 @@ module.exports = {
   deleteThreadFromMessageBoard: deleteThreadFromMessageBoard,
   getThreadRepliesFromMessageBoard: getThreadRepliesFromMessageBoard,
   addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard,
-  reportThreadReplyOnMessageBoard: reportThreadReplyOnMessageBoard
+  reportThreadReplyOnMessageBoard: reportThreadReplyOnMessageBoard,
+  deleteThreadReplyOnMessageBoard: deleteThreadReplyOnMessageBoard
 };

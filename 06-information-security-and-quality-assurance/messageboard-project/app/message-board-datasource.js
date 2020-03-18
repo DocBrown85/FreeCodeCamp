@@ -255,6 +255,46 @@ const reportThreadReplyOnMessageBoard = ({
   });
 };
 
+const deleteThreadReplyOnMessageBoard = ({
+  messageBoard: messageBoard,
+  threadId: threadId,
+  replyId: replyId,
+  deletePassword: deletePassword
+}) => {
+  return new Promise((resolve, reject) => {
+    const Thread = mongoose.model("Thread", ThreadSchema, messageBoard);
+    Thread.findById(new ObjectId(threadId), function(err, thread) {
+      if (err) {
+        reject({error: err});
+        return;
+      }
+      if (thread === null) {
+        reject("invalid thread id");
+        return;
+      }
+
+      let reply = thread.replies.id(new ObjectId(replyId));
+      if (reply === null) {
+        reject("invalid reply id");
+        return;
+      }
+      if (reply.delete_password != deletePassword) {
+        reject("incorrect password");
+        return;
+      }
+      reply.remove();
+
+      thread.save((err, thread) => {
+        if (err) {
+          reject({error: err});
+          return;
+        }
+        resolve(thread);
+      });
+    });
+  });
+};
+
 module.exports = {
   getThreadsFromMessageBoard: getThreadsFromMessageBoard,
   addThreadToMessageBoard: addThreadToMessageBoard,
@@ -262,5 +302,6 @@ module.exports = {
   deleteThreadFromMessageBoard: deleteThreadFromMessageBoard,
   getThreadRepliesFromMessageBoard: getThreadRepliesFromMessageBoard,
   addThreadReplyOnMessageBoard: addThreadReplyOnMessageBoard,
-  reportThreadReplyOnMessageBoard: reportThreadReplyOnMessageBoard
+  reportThreadReplyOnMessageBoard: reportThreadReplyOnMessageBoard,
+  deleteThreadReplyOnMessageBoard: deleteThreadReplyOnMessageBoard
 };

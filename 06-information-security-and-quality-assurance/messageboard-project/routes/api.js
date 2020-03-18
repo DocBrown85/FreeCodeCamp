@@ -231,7 +231,42 @@ module.exports = function(app) {
       }
     )
 
-    .delete((req, res) => {
-      res.status(501).send("not implemented");
-    });
+    .delete(
+      [
+        check("thread_id")
+          .exists()
+          .isMongoId(),
+        check("reply_id")
+          .exists()
+          .isMongoId(),
+        check("delete_password")
+          .exists()
+          .notEmpty()
+          .isString()
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json({errors: errors.array()});
+        }
+
+        const messageBoard = req.params.board;
+        const threadId = req.body.thread_id;
+        const replyId = req.body.reply_id;
+        const deletePassword = req.body.delete_password;
+
+        MessageBoardService.deleteThreadReplyOnMessageBoard({
+          messageBoard: messageBoard,
+          threadId: threadId,
+          replyId: replyId,
+          deletePassword: deletePassword
+        })
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.send(error);
+          });
+      }
+    );
 };

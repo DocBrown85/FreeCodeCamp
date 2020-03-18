@@ -172,7 +172,7 @@ suite("Functional Tests", function() {
       test("delete reply with bad password", function(done) {
         chai
           .request(server)
-          .delete("/api/threads/" + messageBoard)
+          .delete("/api/replies/" + messageBoard)
           .send({
             thread_id: threadId2,
             reply_id: threadId3,
@@ -188,7 +188,7 @@ suite("Functional Tests", function() {
       test("delete reply with valid password", function(done) {
         chai
           .request(server)
-          .delete("/api/threads/" + messageBoard)
+          .delete("/api/replies/" + messageBoard)
           .send({
             thread_id: threadId2,
             reply_id: threadId3,

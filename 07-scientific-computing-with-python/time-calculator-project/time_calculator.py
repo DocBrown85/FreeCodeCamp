@@ -1,53 +1,142 @@
 import math
 
-def add_time(start, duration, startingDayOfWeek=None):
-    daysOfWeek = ("sunday", "monday", "tuesday", "wednesday", "thrusday", "friday", "saturday")
-    secondsForMinute = 60
-    secondsForHour = secondsForMinute * 60
-    secondsForDay = secondsForHour * 24
 
-    startTime, startMeridien = start.split(" ")
+class TimeAdder:
 
-    startHours, startMinutes = startTime.split(":")
-    startInSeconds = int(startHours) * secondsForHour + int(startMinutes) * secondsForMinute
+    _DAYS_OF_WEEK = (
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thrusday",
+        "friday",
+        "saturday",
+    )
+    _SECONDS_FOR_MINUTES = 60
+    _SECONDS_FOR_HOUR = _SECONDS_FOR_MINUTES * 60
+    _SECONDS_FOR_DAY = _SECONDS_FOR_HOUR * 24
 
-    durationHours, durationMinutes = duration.split(":")
-    durationInSeconds = int(durationHours) * secondsForHour + int(durationMinutes) * secondsForMinute
-    
-    endInSeconds = startInSeconds + durationInSeconds
-    elapsedHours = endInSeconds / secondsForHour
+    def __init__(self, startTimeLabel, startDayOfWeek=None):
+        startTime, startTimeMeridien = startTimeLabel.split(" ")
+        self._startTimeInSeconds = self._getSecondsFromTime(startTime)
+        self._startTimeMeridien = startTimeMeridien
+        self._startDayOfWeek = startDayOfWeek
 
-    endMinutes, endSeconds = divmod(endInSeconds, 60)
-    endHours, endMinutes = divmod(endMinutes, 60)
-    endHours %= 12
-    if endHours == 0:
-      endHours = 12
+    def add(self, duration):
+        durationInSeconds = self._getSecondsFromTime(duration)
+        endTimeInSeconds = self._startTimeInSeconds + durationInSeconds
 
-    if startMeridien == "AM":
-      elapsedPeriods = 0
-    else:
-      elapsedPeriods = 1
+        endTimeHours, endTimeMinutes = self._getTimeFromSeconds(endTimeInSeconds)
 
-    elapsedPeriods += math.floor(elapsedHours / 12)
-    if elapsedPeriods % 2 == 0:
-      endMeridien = "AM"
-    else:
-      endMeridien = "PM"
+        elapsedMeridienPeriods = self._getElapsedMeridienPeriods(endTimeInSeconds)
 
-    elapsedDays = elapsedPeriods / 2
-    if (elapsedDays >= 0 and elapsedDays < 1):
-      durationDescription = ""
-    elif (elapsedDays >= 1 and elapsedDays < 2):
-      durationDescription = " (next day)"
-    else:
-      durationDescription = " ({} days later)".format(math.ceil(elapsedDays))
+        endTimeMeridien = self._getEndTimeMeridien(elapsedMeridienPeriods)
 
-    if startingDayOfWeek:
-      endingDayOfWeek = daysOfWeek[(daysOfWeek.index(startingDayOfWeek.lower()) + math.floor(elapsedDays)) % 7]
-      endingDayOfWeekDescription = ", " + endingDayOfWeek.capitalize()
-    else:
-      endingDayOfWeekDescription = ""
+        elapsedTimeLabel = self._getElapsedTimeLabel(elapsedMeridienPeriods)
 
-    endTime = str(endHours) + ":" + str(endMinutes).rjust(2, "0") + " " + endMeridien + endingDayOfWeekDescription + durationDescription
+        if not self._startDayOfWeek:
+            endDayOfWeek = ""
+        else:
+            endDayOfWeek = self._getEndDayOfWeek(elapsedMeridienPeriods)
 
-    return endTime
+        endTimeLabel = self._formatEndTimeLabel(
+            endTimeHours,
+            endTimeMinutes,
+            endTimeMeridien,
+            endDayOfWeek,
+            elapsedTimeLabel,
+        )
+
+        return endTimeLabel
+
+    def _getSecondsFromTime(self, time):
+        hours, minutes = time.split(":")
+        timeInSeconds = (
+            int(hours) * self._SECONDS_FOR_HOUR
+            + int(minutes) * self._SECONDS_FOR_MINUTES
+        )
+
+        return timeInSeconds
+
+    def _getTimeFromSeconds(self, seconds):
+        minutes, seconds = divmod(seconds, 60)
+        hours, minutes = divmod(minutes, 60)
+        hours %= 12
+        if hours == 0:
+            hours = 12
+
+        return hours, minutes
+
+    def _getElapsedMeridienPeriods(self, endTimeInseconds):
+        elapsedHours = endTimeInseconds / self._SECONDS_FOR_HOUR
+        if self._startTimeMeridien == "AM":
+            elapsedMeridienPeriods = 0
+        else:
+            elapsedMeridienPeriods = 1
+
+        elapsedMeridienPeriods += math.floor(elapsedHours / 12)
+
+        return elapsedMeridienPeriods
+
+    def _getEndTimeMeridien(self, elapsedMeridienPeriods):
+        if elapsedMeridienPeriods % 2 == 0:
+            endTimeMeridien = "AM"
+        else:
+            endTimeMeridien = "PM"
+
+        return endTimeMeridien
+
+    def _getElapsedTimeLabel(self, elapsedMeridienPeriods):
+        elapsedDays = elapsedMeridienPeriods / 2
+        if elapsedDays >= 0 and elapsedDays < 1:
+            elapsedTimeLabel = ""
+        elif elapsedDays >= 1 and elapsedDays < 2:
+            elapsedTimeLabel = "(next day)"
+        else:
+            elapsedTimeLabel = "({} days later)".format(math.ceil(elapsedDays))
+
+        return elapsedTimeLabel
+
+    def _getEndDayOfWeek(self, elapsedMeridienPeriods):
+        elapsedDays = elapsedMeridienPeriods / 2
+        endDayOfWeek = self._DAYS_OF_WEEK[
+            (
+                self._DAYS_OF_WEEK.index(self._startDayOfWeek.lower())
+                + math.floor(elapsedDays)
+            )
+            % 7
+        ]
+
+        return endDayOfWeek.capitalize()
+
+    def _formatEndTimeLabel(
+        self,
+        endTimeHours,
+        endTimeMinutes,
+        endTimeMeridien,
+        endDayOfWeek,
+        elapsedTimeLabel,
+    ):
+
+        endTimeMinutes = str(endTimeMinutes).rjust(2, "0")
+
+        if endDayOfWeek != "":
+            endDayOfWeek = ", " + endDayOfWeek
+
+        if elapsedTimeLabel != "":
+            elapsedTimeLabel = " " + elapsedTimeLabel
+
+        endTimeLabel = "{}:{} {}{}{}".format(
+            endTimeHours,
+            endTimeMinutes,
+            endTimeMeridien,
+            endDayOfWeek,
+            elapsedTimeLabel,
+        )
+
+        return endTimeLabel
+
+
+def add_time(start, duration, startDayOfWeek=None):
+    timeAdder = TimeAdder(start, startDayOfWeek=startDayOfWeek)
+    return timeAdder.add(duration)

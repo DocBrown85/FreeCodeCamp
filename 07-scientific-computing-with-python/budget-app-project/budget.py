@@ -1,9 +1,6 @@
 class Category:
-  pass
-
-
-
+    pass
 
 
 def create_spend_chart(categories):
-  pass
+    pass
